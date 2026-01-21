@@ -1,0 +1,2714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Bargain | A Faith-Based Thriller</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Light Mode (Default) */
+            --primary: #FFD700;
+            --primary-dark: #FFA500;
+            --secondary: #FF6B6B;
+            --accent: #4ECDC4;
+            --accent-dark: #45B7B8;
+            --purple: #A78BFA;
+            --pink: #F472B6;
+            --bg-light: #FFFFFF;
+            --bg-gradient-start: #FFF5E1;
+            --bg-gradient-end: #FFE8CC;
+            --bg-section: rgba(255, 255, 255, 0.5);
+            --bg-card: rgba(255, 255, 255, 0.95);
+            --bg-card-hover: rgba(255, 255, 255, 1);
+            --text-dark: #1A1A2E;
+            --text-medium: #2D3748;
+            --text-light: #4A5568;
+            --text-main: #1A1A2E;
+            --white: #FFFFFF;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --shadow-hover: rgba(0, 0, 0, 0.2);
+            --nav-bg: rgba(255, 255, 255, 0.95);
+            --nav-border: var(--primary);
+            --footer-bg: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 107, 107, 0.15), rgba(167, 139, 250, 0.15));
+        }
+
+        [data-theme="dark"] {
+            /* Dark Mode */
+            --primary: #FFD700;
+            --primary-dark: #FFA500;
+            --secondary: #FF6B6B;
+            --accent: #4ECDC4;
+            --accent-dark: #45B7B8;
+            --purple: #A78BFA;
+            --pink: #F472B6;
+            --bg-light: #1A1A2E;
+            --bg-gradient-start: #0F0F1E;
+            --bg-gradient-end: #1A1A2E;
+            --bg-section: rgba(26, 26, 46, 0.7);
+            --bg-card: rgba(26, 26, 46, 0.95);
+            --bg-card-hover: rgba(30, 30, 55, 1);
+            --text-dark: #E0E0E0;
+            --text-medium: #C0C0C0;
+            --text-light: #A0A0A0;
+            --text-main: #E0E0E0;
+            --white: #FFFFFF;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --shadow-hover: rgba(0, 0, 0, 0.5);
+            --nav-bg: rgba(26, 26, 46, 0.95);
+            --nav-border: var(--primary);
+            --footer-bg: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 107, 107, 0.1), rgba(167, 139, 250, 0.1));
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.7;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1.5rem 5%;
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 2px solid var(--nav-border);
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        nav.scrolled {
+            padding: 1rem 5%;
+            background: var(--nav-bg);
+            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.3);
+            transform: translateY(0);
+        }
+
+        nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 50%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .logo:hover {
+            transform: scale(1.05) rotate(-2deg);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .invest-btn {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--pink) 100%);
+            color: white;
+            padding: 0.9rem 2.2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .invest-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .invest-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
+        }
+
+        .invest-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .invest-btn:active {
+            transform: translateY(-1px) scale(1.02);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #FFE8CC 0%, #FFF5E1 50%, #FFE0B2 100%);
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: 1;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease-in;
+            pointer-events: none;
+        }
+
+        .hero-video.loaded {
+            opacity: 0.3;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(180deg, rgba(255, 245, 225, 0.6) 0%, rgba(255, 232, 204, 0.4) 50%, rgba(255, 224, 178, 0.7) 100%),
+                radial-gradient(circle at 30% 40%, rgba(255, 107, 107, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(255, 215, 0, 0.2) 0%, transparent 50%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 40%, rgba(255, 107, 107, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(255, 215, 0, 0.25) 0%, transparent 50%),
+                radial-gradient(circle at 50% 80%, rgba(167, 139, 250, 0.15) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="none"/><path d="M0 50 L50 0 L100 50 L50 100 Z" fill="rgba(212,175,55,0.02)"/></svg>');
+            opacity: 0.1;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+            max-width: 1000px;
+            padding: 0 2rem;
+            animation: fadeInUp 1s ease-out;
+            position: relative;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 6rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 4px;
+            animation: titleGlow 3s ease-in-out infinite;
+            text-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+            transform: perspective(1000px) rotateX(5deg);
+            transition: transform 0.3s ease;
+        }
+
+        .hero h1:hover {
+            transform: perspective(1000px) rotateX(0deg) scale(1.02);
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.2); }
+        }
+
+        .hero .tagline {
+            font-family: 'Inter', sans-serif;
+            font-size: 2rem;
+            color: var(--text-main);
+            margin-bottom: 1rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            opacity: 0.9;
+            transition: color 0.3s ease;
+        }
+
+        .hero .genre {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-weight: 700;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* Video loading placeholder */
+        .hero-video-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            z-index: 0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--pink) 100%);
+            color: white;
+            padding: 1.3rem 3.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1rem;
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(255, 107, 107, 0.6);
+        }
+
+        .btn-primary:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-dark);
+            padding: 1.3rem 3.5rem;
+            border: 3px solid var(--primary);
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, transparent, transparent);
+        }
+
+        .btn-secondary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .btn-secondary:hover {
+            color: white;
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-secondary:hover::before {
+            left: 0;
+        }
+
+        /* Section Styling */
+        section {
+            padding: 8rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--bg-section);
+            border-radius: 30px;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 40px var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 800;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-medium);
+            font-size: 1.3rem;
+            margin-bottom: 4rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 400;
+            line-height: 1.8;
+            transition: color 0.3s ease;
+        }
+
+        /* Story Section */
+        .story-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .logline {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-style: italic;
+            margin-bottom: 3rem;
+            line-height: 1.8;
+            font-weight: 500;
+            padding: 2rem;
+            background-color: rgba(255, 215, 0, 0.1);
+            border-left: 5px solid var(--primary);
+            border-radius: 15px;
+        }
+
+        .synopsis {
+            text-align: left;
+            color: var(--text-main);
+            font-size: 1.15rem;
+            line-height: 2;
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        .synopsis p {
+            margin-bottom: 1.8rem;
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .synopsis p:hover {
+            background: var(--bg-card-hover);
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        /* Poster Grid */
+        .poster-section {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 107, 107, 0.1));
+            padding: 8rem 5%;
+            border-radius: 30px;
+            margin: 3rem auto;
+            max-width: 1400px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
+        }
+
+        .poster-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .poster-image {
+            width: 100%;
+            aspect-ratio: 2/3;
+            background: linear-gradient(135deg, rgba(196, 30, 58, 0.3), rgba(212, 175, 55, 0.2));
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .poster-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+            display: block;
+        }
+
+        .poster-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(255, 245, 225, 0.2) 0%, rgba(255, 232, 204, 0.1) 100%);
+            pointer-events: none;
+            border-radius: 20px;
+        }
+
+        .poster-details h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.8rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            font-weight: 800;
+        }
+
+        .detail-item {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border-radius: 15px;
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .detail-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.2);
+            background: var(--bg-card-hover);
+        }
+
+        .detail-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-label {
+            font-family: 'Poppins', sans-serif;
+            color: var(--primary-dark);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+
+        .detail-value {
+            color: var(--text-main);
+            font-size: 1.15rem;
+            font-weight: 500;
+            line-height: 1.6;
+            transition: color 0.3s ease;
+        }
+
+        /* Cast Section */
+        .cast-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .cast-card {
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border-radius: 20px;
+            box-shadow: 0 5px 20px var(--shadow);
+        }
+
+        .cast-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.3);
+            background: var(--bg-card-hover);
+        }
+
+        .cast-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--purple) 100%);
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            border: 5px solid var(--white);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+            transition: all 0.4s ease;
+        }
+
+        .cast-card:hover .cast-image {
+            transform: rotate(360deg) scale(1.1);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6);
+        }
+
+        .cast-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .cast-role {
+            color: var(--text-medium);
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+
+        /* Gallery Section */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .gallery-item {
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--pink) 50%, var(--purple) 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.08) rotate(2deg);
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.4);
+        }
+
+        .gallery-item::after {
+            content: '▶';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: white;
+            opacity: 0.7;
+        }
+
+        .coming-soon-placeholder {
+            grid-column: 1 / -1;
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 107, 107, 0.2), rgba(167, 139, 250, 0.2));
+            border: 3px dashed var(--primary);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .coming-soon-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .coming-soon-icon {
+            font-size: 4rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            opacity: 0.6;
+        }
+
+        .coming-soon-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .coming-soon-subtext {
+            font-size: 1.1rem;
+            color: var(--text-medium);
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Contact CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 107, 107, 0.2), rgba(167, 139, 250, 0.2));
+            padding: 6rem 5%;
+            text-align: center;
+            border-radius: 30px;
+            margin: 3rem auto;
+            max-width: 1400px;
+            box-shadow: 0 15px 50px rgba(255, 215, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .cta-section h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-section p {
+            font-size: 1.4rem;
+            color: var(--text-dark);
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--footer-bg);
+            padding: 4rem 5%;
+            text-align: center;
+            border-top: 3px solid var(--primary);
+            margin-top: 3rem;
+            border-radius: 30px 30px 0 0;
+            box-shadow: 0 -10px 40px rgba(255, 215, 0, 0.2);
+            transition: background 0.3s ease;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 3rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            background: var(--bg-card);
+            border: 2px solid var(--primary);
+        }
+
+        .footer-links a:hover {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+            border-color: transparent;
+        }
+
+        footer p {
+            color: var(--text-main);
+            margin-bottom: 1rem;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-contact-box {
+            margin: 2rem auto;
+            padding: 2rem;
+            background: var(--bg-card);
+            border-radius: 20px;
+            max-width: 600px;
+            border: 3px solid var(--primary);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .footer-contact-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(255, 215, 0, 0.3);
+        }
+
+        .footer-contact-box .contact-title {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .footer-contact-box .contact-info-item {
+            color: var(--text-main);
+            margin: 0.5rem 0;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .bible-verse {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-style: italic;
+            font-size: 1.3rem;
+            margin-top: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 600;
+            line-height: 1.8;
+            padding: 1.5rem;
+            background-color: var(--bg-card);
+            border-radius: 15px;
+            border-left: 5px solid var(--primary);
+            transition: background-color 0.3s ease;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .social-links a {
+            color: var(--text-dim);
+            font-size: 1.5rem;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        /* Page Container for Routing */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Investment Page Styles */
+        .investment-hero {
+            padding: 12rem 5% 8rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 107, 107, 0.15), rgba(167, 139, 250, 0.15));
+            border-radius: 30px;
+            margin: 2rem auto;
+            max-width: 1400px;
+            box-shadow: 0 15px 50px rgba(255, 215, 0, 0.2);
+        }
+
+        .investment-hero h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 4.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            font-weight: 900;
+        }
+
+        .investment-hero .subtitle {
+            font-size: 1.6rem;
+            color: var(--text-dark);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            font-weight: 500;
+            line-height: 1.8;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 3px solid var(--primary);
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            transition: transform 0.6s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.4);
+            border-color: var(--secondary);
+        }
+
+        .stat-card:hover::before {
+            transform: rotate(180deg);
+        }
+
+        .stat-number {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-label {
+            color: var(--text-main);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            transition: color 0.3s ease;
+        }
+
+        .investment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .investment-card {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 25px;
+            border: 3px solid var(--primary);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .investment-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .investment-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            border-color: var(--secondary);
+            box-shadow: 0 20px 50px rgba(255, 107, 107, 0.4);
+        }
+
+        .investment-card:hover::before {
+            left: 100%;
+        }
+
+        .investment-card h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+        }
+
+        .investment-card .amount {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--secondary), var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+        }
+
+        .investment-card ul {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .investment-card li {
+            padding: 0.7rem 0;
+            color: var(--text-main);
+            position: relative;
+            padding-left: 2rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .investment-card li:hover {
+            color: var(--primary-dark);
+            transform: translateX(5px);
+        }
+
+        .investment-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Revenue Timeline */
+        .timeline {
+            position: relative;
+            margin-top: 4rem;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 50%, var(--purple) 100%);
+            border-radius: 2px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content:first-child {
+            order: 2;
+        }
+
+        .timeline-content {
+            background: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 3px solid var(--primary);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.2);
+            transition: all 0.4s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.4);
+            border-color: var(--secondary);
+        }
+
+        .timeline-content h3 {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 2rem;
+            transform: translateX(-50%);
+            width: 25px;
+            height: 25px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            border: 5px solid var(--white);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 107, 107, 0.4);
+            animation: pulseDot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.2); }
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 4rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 2rem;
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 3px solid var(--primary);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .contact-item:hover {
+            border-color: var(--secondary);
+            transform: translateX(15px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+            background: var(--bg-card-hover);
+        }
+
+        .contact-icon {
+            font-size: 2.5rem;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-family: 'Poppins', sans-serif;
+            color: var(--primary-dark);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            background: var(--bg-card);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 1.2rem;
+            color: var(--text-main);
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 25px rgba(255, 107, 107, 0.3);
+            transform: translateY(-2px);
+            background: var(--bg-card-hover);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        /* Video aspect ratio handling */
+        @media (min-aspect-ratio: 16/9) {
+            .hero-video {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        @media (max-aspect-ratio: 16/9) {
+            .hero-video {
+                width: auto;
+                height: 100%;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero-video {
+                opacity: 0.3;
+                min-width: 100vw;
+                min-height: 100vh;
+            }
+
+            .hero-video.loaded {
+                opacity: 0.3;
+            }
+
+            .hero-overlay {
+                background: 
+                    linear-gradient(180deg, rgba(10, 10, 10, 0.8) 0%, rgba(10, 10, 10, 0.6) 50%, rgba(10, 10, 10, 0.9) 100%),
+                    radial-gradient(circle at 30% 40%, rgba(196, 30, 58, 0.15) 0%, transparent 50%),
+                    radial-gradient(circle at 70% 60%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .poster-grid,
+            .contact-grid,
+            .timeline-item {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-dot {
+                left: 20px;
+            }
+
+            section {
+                padding: 4rem 5%;
+            }
+
+            .investment-hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-video.loaded {
+                opacity: 0.25;
+            }
+
+            .hero-overlay {
+                background: 
+                    linear-gradient(180deg, rgba(10, 10, 10, 0.85) 0%, rgba(10, 10, 10, 0.7) 50%, rgba(10, 10, 10, 0.95) 100%),
+                    radial-gradient(circle at 30% 40%, rgba(196, 30, 58, 0.15) 0%, transparent 50%),
+                    radial-gradient(circle at 70% 60%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+            }
+
+            .coming-soon-placeholder {
+                padding: 2rem 1.5rem;
+            }
+
+            .coming-soon-icon {
+                font-size: 3rem;
+            }
+
+            .coming-soon-text {
+                font-size: 1.2rem;
+            }
+
+            .coming-soon-subtext {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Landscape orientation adjustments */
+        @media (orientation: landscape) and (max-height: 500px) {
+            .hero-video.loaded {
+                opacity: 0.35;
+            }
+        }
+
+
+        /* Scroll Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s, transform 0.8s;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Additional styles for new sections */
+        .investment-card p {
+            line-height: 1.6;
+            margin-top: 0.5rem;
+        }
+
+        .stat-card p {
+            margin-top: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .timeline-content p {
+            color: var(--text-main);
+            line-height: 1.6;
+            transition: color 0.3s ease;
+        }
+
+        /* Password Modal */
+        .password-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .password-modal.active {
+            display: flex;
+        }
+
+        .password-modal-content {
+            background: var(--bg-card);
+            padding: 3rem;
+            border-radius: 25px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px var(--shadow-hover);
+            border: 3px solid var(--primary);
+            position: relative;
+            animation: modalSlideIn 0.4s ease-out;
+            transition: background 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .password-modal-content h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 800;
+        }
+
+        .password-modal-content p {
+            color: var(--text-main);
+            margin-bottom: 2rem;
+            text-align: center;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .password-input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .password-input-group input {
+            width: 100%;
+            padding: 1.2rem;
+            border: 3px solid var(--primary);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: var(--bg-card);
+            color: var(--text-main);
+            transition: all 0.3s ease;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        .password-input-group input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 25px rgba(255, 107, 107, 0.3);
+            transform: scale(1.02);
+        }
+
+        .password-error {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+
+        .password-error.show {
+            display: block;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .password-modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .password-modal-buttons button {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .password-submit-btn {
+            background: linear-gradient(135deg, var(--secondary), var(--pink));
+            color: white;
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .password-submit-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.6);
+        }
+
+        .password-cancel-btn {
+            background: transparent;
+            color: var(--text-main);
+            border: 3px solid var(--primary);
+        }
+
+        .password-cancel-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Form Message Styles */
+        #formMessage {
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #submitBtn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: var(--bg-card);
+            border: 2px solid var(--primary);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            padding: 3px;
+            box-shadow: 0 2px 10px var(--shadow);
+        }
+
+        .theme-toggle:hover {
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+            transform: scale(1.05);
+        }
+
+        .theme-toggle-slider {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transform: translateX(0);
+        }
+
+        [data-theme="dark"] .theme-toggle-slider {
+            transform: translateX(30px);
+        }
+
+        .theme-toggle-icon {
+            font-size: 16px;
+            transition: opacity 0.3s ease;
+        }
+
+        .theme-toggle-icon.sun {
+            opacity: 1;
+        }
+
+        .theme-toggle-icon.moon {
+            opacity: 0;
+            position: absolute;
+        }
+
+        [data-theme="dark"] .theme-toggle-icon.sun {
+            opacity: 0;
+        }
+
+        [data-theme="dark"] .theme-toggle-icon.moon {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Password Modal -->
+    <div id="passwordModal" class="password-modal">
+        <div class="password-modal-content">
+            <h2>Partner Access</h2>
+            <p>Please enter the password to access investment information</p>
+            <div class="password-input-group">
+                <input type="password" id="passwordInput" placeholder="Enter Password" autocomplete="off">
+                <div class="password-error" id="passwordError">Incorrect password. Please try again.</div>
+            </div>
+            <div class="password-modal-buttons">
+                <button class="password-submit-btn" onclick="checkPassword()">Submit</button>
+                <button class="password-cancel-btn" onclick="closePasswordModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="nav">
+        <div class="container">
+            <div class="logo">THE BARGAIN</div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showPage('home'); return false;">Home</a></li>
+                <li><a href="#story">Story</a></li>
+                <li><a href="#cast">Cast & Crew</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+            </ul>
+            <div class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                <div class="theme-toggle-slider">
+                    <span class="theme-toggle-icon sun">☀️</span>
+                    <span class="theme-toggle-icon moon">🌙</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HOME PAGE -->
+    <div id="home-page" class="page active">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-video-placeholder"></div>
+            <video 
+                class="hero-video" 
+                autoplay 
+                muted 
+                loop 
+                playsinline
+                preload="none"
+                aria-label="The Bargain trailer video background">
+                <source data-src="thebargain.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="hero-overlay"></div>
+            <div class="hero-bg"></div>
+            <div class="hero-content">
+                <h1>THE BARGAIN</h1>
+                <p class="tagline">When Faith Meets Desperation</p>
+                <p class="genre">Faith-Based Thriller</p>
+                
+                <div class="hero-buttons">
+                    <button class="btn-secondary" onclick="document.getElementById('story').scrollIntoView({behavior: 'smooth'})">Discover the Story</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Section -->
+        <section id="story">
+            <h2 class="section-title">The Story</h2>
+            <div class="story-content">
+                <p class="logline">
+                    "When a bitter widower's daughter is kidnapped, his desperate prayer leads him on an impossible rescue mission that will test everything he thought he knew about faith, fate, and the voice of God."
+                </p>
+                
+                <div class="synopsis">
+                    <p>Chidi, a retired inter-state bus driver, loses his devout Christian wife to illness despite her unwavering faith. When the church refuses to bury her until he pays her outstanding dues, his grief turns to anger, and he turns his back on God.</p>
+                    
+                    <p>Weeks later, his daughter Grace and her classmates are kidnapped on their way to boarding school. The ransom demand is astronomical—far beyond anything Chidi can raise. Rejected by family, friends, money lenders, and even the church that shamed him, he finds himself completely alone.</p>
+                    
+                    <p>In desperation, he returns to the altar—not with faith, but with a bargain: "God, if you bring my daughter back, I will serve you."</p>
+                    
+                    <p>That night, while replaying the ransom call, he hears something unusual in the background—a bird song he recognizes from his years driving through Nigeria's remote regions. It's a sound found only in one specific area, hundreds of kilometers away.</p>
+                    
+                    <p>Armed with nothing but his knowledge of the roads, the terrain, and a father's desperation, Chidi embarks on a dangerous self-rescue mission. What he discovers is far worse than he imagined—a camp holding not just his daughter, but dozens of children taken over months.</p>
+                    
+                    <p>Through cunning, courage, and what can only be described as divine guidance, Chidi orchestrates a daring escape. The film culminates in an emotionally charged rescue, a tearful reunion, and a transformed man returning to church—not from obligation, but from genuine gratitude.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Poster Details Section -->
+        <div class="poster-section">
+            <div class="poster-grid">
+                <div class="poster-image">
+                    <video 
+                        class="poster-video" 
+                        autoplay 
+                        muted 
+                        loop 
+                        playsinline
+                        preload="metadata"
+                        aria-label="The Bargain film details video">
+                        <source src="thebargain2.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="poster-details">
+                    <h3>Film Details</h3>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Genre</span>
+                        <span class="detail-value">Faith-Based Drama/Thriller</span>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Director</span>
+                        <span class="detail-value">Imoh Umoren</span>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Producer</span>
+                        <span class="detail-value">Richard Awe</span>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Target Audience</span>
+                        <span class="detail-value">Faith communities, families, cinema-goers seeking inspirational content</span>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Production Timeline</span>
+                        <span class="detail-value">6-8 months (pre-production to post-production)</span>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Distribution</span>
+                        <span class="detail-value">Church-based theatrical screenings, International markets, Streaming platforms</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cast Section -->
+        <section id="cast">
+            <h2 class="section-title">Cast & Crew</h2>
+            <p class="section-subtitle">Bringing this powerful story to life</p>
+            
+            <div class="cast-grid">
+                <div class="cast-card">
+                    <div class="cast-image">🎬</div>
+                    <div class="cast-name">Imoh Umoren</div>
+                    <div class="cast-role">Director</div>
+                </div>
+                
+                <div class="cast-card">
+                    <div class="cast-image">🎥</div>
+                    <div class="cast-name">Richard Awe</div>
+                    <div class="cast-role">Producer</div>
+                </div>
+                
+                <div class="cast-card">
+                    <div class="cast-image">✍️</div>
+                    <div class="cast-name">TBC</div>
+                    <div class="cast-role">Screenwriter</div>
+                </div>
+                
+                <div class="cast-card">
+                    <div class="cast-image">📷</div>
+                    <div class="cast-name">TBC</div>
+                    <div class="cast-role">Director of Photography</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery">
+            <h2 class="section-title">Behind the Scenes</h2>
+            <p class="section-subtitle">Get a glimpse of the production</p>
+            
+            <div class="gallery-grid">
+                <div class="coming-soon-placeholder">
+                    <div class="coming-soon-icon">🎬</div>
+                    <div class="coming-soon-text">Coming Soon</div>
+                    <div class="coming-soon-subtext">Behind the scenes content will be available soon</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact CTA Section -->
+        <div class="cta-section">
+            <h2>Join Us on This Journey</h2>
+            <p>Be part of bringing this powerful story of faith, redemption, and hope to audiences worldwide.</p>
+            <a href="#" class="btn-primary" onclick="showPasswordModal()">Partner with us</a>
+        </div>
+    </div>
+
+    <!-- INVESTMENT PAGE -->
+    <div id="invest-page" class="page">
+        <div class="investment-hero">
+            <h1>Investment Opportunity</h1>
+            <p class="subtitle">Partner with us to bring "The Bargain" to life and reach audiences worldwide</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">₦20M</span>
+                    <span class="stat-label">Production Budget</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">6-8</span>
+                    <span class="stat-label">Months Timeline</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">400%</span>
+                    <span class="stat-label">Conservative ROI</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">3-4</span>
+                    <span class="stat-label">Months to Profitability</span>
+                </div>
+            </div>
+        </div>
+
+        <section>
+            <h2 class="section-title">Investment Tiers</h2>
+            <p class="section-subtitle">Choose the investment level that works for you</p>
+            
+            <div class="investment-grid">
+                <div class="investment-card">
+                    <h3>Associate Producer</h3>
+                    <div class="amount">₦1,000,000 - ₦1,999,999</div>
+                    <ul>
+                        <li>Credit as Associate Producer</li>
+                        <li>Proportional share of all revenue streams</li>
+                        <li>VIP invitations to church premiere events</li>
+                        <li>Digital copy of the film</li>
+                        <li>Behind-the-scenes access</li>
+                        <li>Detailed monthly financial reports</li>
+                    </ul>
+                </div>
+                
+                <div class="investment-card">
+                    <h3>Executive Producer</h3>
+                    <div class="amount">₦2,000,000+</div>
+                    <ul>
+                        <li>Credit as Executive Producer</li>
+                        <li>Proportional share of all revenue streams</li>
+                        <li>Creative input on key decisions</li>
+                        <li>Exclusive set visits</li>
+                        <li>VIP premiere access nationwide</li>
+                        <li>First-look opportunity for future productions</li>
+                        <li>Quarterly financial reports</li>
+                    </ul>
+                </div>
+                
+                <div class="investment-card">
+                    <h3>Minimum Investment</h3>
+                    <div class="amount">₦500,000</div>
+                    <ul>
+                        <li>Equity partnership in all film revenue</li>
+                        <li>Proportional share of revenue streams</li>
+                        <li>Invitation to premiere screenings</li>
+                        <li>Digital copy of the film</li>
+                        <li>Monthly financial reports</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Distribution Strategy -->
+        <section>
+            <h2 class="section-title">Revolutionary Distribution Strategy</h2>
+            <p class="section-subtitle">Church-First Model: Direct Access to 80+ Million Christians</p>
+            
+            <div class="investment-grid" style="margin-top: 2rem;">
+                <div class="investment-card">
+                    <h3>Phase 1: Nigerian Church Circuit</h3>
+                    <p style="margin-bottom: 1rem; color: var(--text);">Months 1-6</p>
+                    <ul>
+                        <li>Direct access to 50,000+ churches nationwide</li>
+                        <li>Target: 200+ mega churches, 500+ large churches</li>
+                        <li>Ticket prices: ₦1,000 - ₦2,000 per person</li>
+                        <li>85-90% revenue retention (vs. 40% in cinemas)</li>
+                        <li>Churches receive 10-15% hosting fee</li>
+                        <li>Multiple screenings per church (2-4 showings)</li>
+                    </ul>
+                </div>
+                
+                <div class="investment-card">
+                    <h3>Phase 2: International Markets</h3>
+                    <p style="margin-bottom: 1rem; color: var(--text);">Months 7-12</p>
+                    <ul>
+                        <li>UK: 500+ African churches</li>
+                        <li>US: 1,000+ African churches</li>
+                        <li>Canada, South Africa, Ghana expansion</li>
+                        <li>Church licensing: £500-£1,500 / $700-$2,000</li>
+                        <li>Ticket pricing: £5-£10 / $10-$15</li>
+                    </ul>
+                </div>
+                
+                <div class="investment-card">
+                    <h3>Phase 3: Streaming Platforms</h3>
+                    <p style="margin-bottom: 1rem; color: var(--text);">Month 13+</p>
+                    <ul>
+                        <li>Netflix Nigeria & International</li>
+                        <li>Amazon Prime Video</li>
+                        <li>ROK, iROKOtv</li>
+                        <li>Faith-based platforms (PureFlix, Angel Studios)</li>
+                        <li>Premium positioning based on proven demand</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Revenue Projections -->
+        <section>
+            <h2 class="section-title">Revenue Projections</h2>
+            <p class="section-subtitle">Conservative estimates based on minimal church penetration</p>
+            
+            <div class="stats-grid" style="margin-top: 3rem;">
+                <div class="stat-card">
+                    <span class="stat-number">₦64.5M</span>
+                    <span class="stat-label">Phase 1: Nigerian Churches</span>
+                    <p style="margin-top: 1rem; color: var(--text-dim); font-size: 0.9rem;">Conservative estimate from 100 churches</p>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">₦20M</span>
+                    <span class="stat-label">Phase 2: International</span>
+                    <p style="margin-top: 1rem; color: var(--text-dim); font-size: 0.9rem;">UK, US, Canada markets</p>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">₦5M</span>
+                    <span class="stat-label">Phase 3: Streaming</span>
+                    <p style="margin-top: 1rem; color: var(--text-dim); font-size: 0.9rem;">Platform licensing</p>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">₦89.5M</span>
+                    <span class="stat-label">Total Projected Revenue</span>
+                    <p style="margin-top: 1rem; color: var(--primary); font-size: 0.9rem; font-weight: bold;">400% ROI on ₦20M investment</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Budget Breakdown -->
+        <section>
+            <h2 class="section-title">Budget Breakdown</h2>
+            <p class="section-subtitle">Total Budget: ₦20,000,000</p>
+            
+            <div class="investment-grid" style="margin-top: 2rem;">
+                <div class="investment-card">
+                    <h3>Pre-Production</h3>
+                    <div class="amount">₦2,500,000 (12.5%)</div>
+                    <p style="color: var(--text);">Script development, location scouting, casting, production design planning</p>
+                </div>
+                
+                <div class="investment-card">
+                    <h3>Production</h3>
+                    <div class="amount">₦9,500,000 (47.5%)</div>
+                    <p style="color: var(--text);">Cast & crew salaries, equipment rental, location fees, transportation, catering, security</p>
+                </div>
+                
+                <div class="investment-card">
+                    <h3>Post-Production</h3>
+                    <div class="amount">₦4,000,000 (20%)</div>
+                    <p style="color: var(--text);">Editing, color grading, sound design, music composition, visual effects</p>
+                </div>
+                
+                <div class="investment-card">
+                    <h3>Distribution Package</h3>
+                    <div class="amount">₦2,000,000 (10%)</div>
+                    <p style="color: var(--text);">Digital screening packages, promotional materials, church partnership coordination</p>
+                </div>
+                
+                <div class="investment-card">
+                    <h3>Marketing & Outreach</h3>
+                    <div class="amount">₦1,000,000 (5%)</div>
+                    <p style="color: var(--text);">Social media campaigns, teaser trailers, church liaison team</p>
+                </div>
+                
+                <div class="investment-card">
+                    <h3>Contingency</h3>
+                    <div class="amount">₦1,000,000 (5%)</div>
+                    <p style="color: var(--text);">Emergency funds, unforeseen expenses</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Church Partnership Strategy -->
+        <section>
+            <h2 class="section-title">Church Partnership Strategy</h2>
+            <p class="section-subtitle">Leveraging Nigeria's extensive church network for maximum reach</p>
+            
+            <div class="story-content" style="margin-top: 3rem;">
+                <div class="synopsis">
+                    <h3 style="color: var(--primary); margin-bottom: 1.5rem; text-align: center;">Target Churches</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+                        <div style="background: rgba(212, 175, 55, 0.05); padding: 1.5rem; border-radius: 10px; border: 1px solid rgba(212, 175, 55, 0.2);">
+                            <div style="font-size: 2rem; color: var(--primary); margin-bottom: 0.5rem;">200+</div>
+                            <div style="color: var(--text); font-weight: bold;">Mega Churches</div>
+                            <div style="color: var(--text-dim); font-size: 0.9rem; margin-top: 0.5rem;">5,000+ members each</div>
+                        </div>
+                        <div style="background: rgba(212, 175, 55, 0.05); padding: 1.5rem; border-radius: 10px; border: 1px solid rgba(212, 175, 55, 0.2);">
+                            <div style="font-size: 2rem; color: var(--primary); margin-bottom: 0.5rem;">500+</div>
+                            <div style="color: var(--text); font-weight: bold;">Large Churches</div>
+                            <div style="color: var(--text-dim); font-size: 0.9rem; margin-top: 0.5rem;">1,000-5,000 members</div>
+                        </div>
+                        <div style="background: rgba(212, 175, 55, 0.05); padding: 1.5rem; border-radius: 10px; border: 1px solid rgba(212, 175, 55, 0.2);">
+                            <div style="font-size: 2rem; color: var(--primary); margin-bottom: 0.5rem;">1,000+</div>
+                            <div style="color: var(--text); font-weight: bold;">Medium Churches</div>
+                            <div style="color: var(--text-dim); font-size: 0.9rem; margin-top: 0.5rem;">500-1,000 members</div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="color: var(--primary); margin-bottom: 1.5rem; text-align: center;">Denominational Partnerships</h3>
+                    <p style="text-align: center; margin-bottom: 2rem; color: var(--text);">Pursuing partnerships with major denominations for streamlined access:</p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                        <div style="text-align: center; padding: 1rem; background: rgba(212, 175, 55, 0.05); border-radius: 8px;">RCCG: 15,000+ parishes</div>
+                        <div style="text-align: center; padding: 1rem; background: rgba(212, 175, 55, 0.05); border-radius: 8px;">Winners Chapel: 5,000+ churches</div>
+                        <div style="text-align: center; padding: 1rem; background: rgba(212, 175, 55, 0.05); border-radius: 8px;">Mountain of Fire: 3,000+ branches</div>
+                        <div style="text-align: center; padding: 1rem; background: rgba(212, 175, 55, 0.05); border-radius: 8px;">Deeper Life: 2,000+ churches</div>
+                        <div style="text-align: center; padding: 1rem; background: rgba(212, 175, 55, 0.05); border-radius: 8px;">Catholic Archdioceses</div>
+                        <div style="text-align: center; padding: 1rem; background: rgba(212, 175, 55, 0.05); border-radius: 8px;">Anglican Communion</div>
+                    </div>
+                    
+                    <h3 style="color: var(--primary); margin-bottom: 1.5rem; text-align: center;">Church Incentives</h3>
+                    <ul style="list-style: none; max-width: 600px; margin: 0 auto;">
+                        <li style="padding: 0.75rem 0; color: var(--text); position: relative; padding-left: 2rem;">✓ 10-15% of ticket revenue</li>
+                        <li style="padding: 0.75rem 0; color: var(--text); position: relative; padding-left: 2rem;">✓ Free promotional materials</li>
+                        <li style="padding: 0.75rem 0; color: var(--text); position: relative; padding-left: 2rem;">✓ Technical support for screenings</li>
+                        <li style="padding: 0.75rem 0; color: var(--text); position: relative; padding-left: 2rem;">✓ Digital copy for ongoing church use</li>
+                        <li style="padding: 0.75rem 0; color: var(--text); position: relative; padding-left: 2rem;">✓ Opportunity for post-screening discussions</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Competitive Advantages -->
+        <section>
+            <h2 class="section-title">Competitive Advantages</h2>
+            
+            <div class="investment-grid" style="margin-top: 2rem;">
+                <div class="investment-card">
+                    <h3>1. Unprecedented Distribution</h3>
+                    <p style="color: var(--text);">First Nigerian faith film to systematically target church circuit. Eliminates expensive cinema distribution bottlenecks.</p>
+                </div>
+                
+                <div class="investment-card">
+                    <h3>2. Higher Profit Margins</h3>
+                    <p style="color: var(--text);">85-90% revenue retention vs. 40% in commercial cinemas. Lower marketing costs through organic church networks.</p>
+                </div>
+                
+                <div class="investment-card">
+                    <h3>3. Built-In Marketing</h3>
+                    <p style="color: var(--text);">Church bulletins reach millions weekly. Pastoral endorsements carry immense weight. Testimonial-driven word-of-mouth.</p>
+                </div>
+                
+                <div class="investment-card">
+                    <h3>4. Scalable Model</h3>
+                    <p style="color: var(--text);">Success in Nigerian churches validates international expansion. Proven revenue before streaming negotiations.</p>
+                </div>
+                
+                <div class="investment-card">
+                    <h3>5. Mission-Aligned</h3>
+                    <p style="color: var(--text);">Churches enthusiastically support values-aligned content. Mutual benefit creates long-term partnerships.</p>
+                </div>
+                
+                <div class="investment-card">
+                    <h3>6. Social Impact</h3>
+                    <p style="color: var(--text);">Raises awareness about Nigeria's kidnapping crisis. 5% of profits donated to victim support organizations.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Production Timeline -->
+        <section>
+            <h2 class="section-title">Production Timeline</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Weeks 1-8: Pre-Production</h3>
+                        <p>Script finalization, casting, location scouting, crew assembly, production design planning.</p>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Weeks 9-13: Principal Photography</h3>
+                        <p>Filming in Lagos, Ogun, and bush locations. Capturing the heart of the story across Nigeria.</p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Weeks 14-25: Post-Production</h3>
+                        <p>Editing, sound design, color grading, music composition, visual effects completion.</p>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Weeks 26-30: Church Partnership Development</h3>
+                        <p>Church outreach, partnership agreements, promotional material distribution, screening coordination.</p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Month 7: Launch</h3>
+                        <p>Nationwide church screenings begin. Phase 1 revenue generation starts.</p>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Months 7-12: International Expansion</h3>
+                        <p>Phase 2: International church markets. Phase 3: Streaming platform negotiations.</p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 2rem; color: var(--text-dim);">Total Timeline: 6-7 months from funding to first church screenings</p>
+        </section>
+
+        <!-- Revenue Distribution -->
+        <section>
+            <h2 class="section-title">Revenue Distribution Timeline</h2>
+            <div class="investment-grid" style="margin-top: 2rem;">
+                <div class="investment-card">
+                    <h3>Monthly Distributions</h3>
+                    <p style="color: var(--text);">Beginning 30 days after first church screenings. Investors receive proportional share of all revenue streams.</p>
+                </div>
+                
+                <div class="investment-card">
+                    <h3>International Licensing</h3>
+                    <p style="color: var(--text);">Revenues distributed quarterly as Phase 2 church partnerships generate income.</p>
+                </div>
+                
+                <div class="investment-card">
+                    <h3>Streaming Revenues</h3>
+                    <p style="color: var(--text);">Distributed semi-annually as Phase 3 streaming platform deals are finalized.</p>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 2rem; color: var(--primary); font-weight: bold;">Projected Timeline to First Distribution: 3-4 months from production completion</p>
+        </section>
+
+        <!-- Contact Section -->
+        <section>
+            <h2 class="section-title">Get In Touch</h2>
+            <p class="section-subtitle">Ready to invest? Contact us to discuss your participation</p>
+            
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div>
+                            <div class="detail-label">Email</div>
+                            <div class="detail-value">richard@thebargain.com.ng</div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📱</div>
+                        <div>
+                            <div class="detail-label">Phone</div>
+                            <div class="detail-value">+447927292051</div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">👤</div>
+                        <div>
+                            <div class="detail-label">Producer</div>
+                            <div class="detail-value">Richard Awe</div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div>
+                            <div class="detail-label">Location</div>
+                            <div class="detail-value">Lagos, Nigeria</div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">🌐</div>
+                        <div>
+                            <div class="detail-label">Website</div>
+                            <div class="detail-value">https://thebargain.com.ng</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <form class="contact-form" id="contactForm" method="POST" action="contact.php">
+                    <div id="formMessage" style="display: none; padding: 1rem; border-radius: 10px; margin-bottom: 1.5rem; text-align: center; font-weight: 600;"></div>
+                    
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="investment">Investment Interest</label>
+                        <select id="investment" name="investment" required>
+                            <option value="">Select an option</option>
+                            <option value="minimum">Minimum Investment (₦500,000+)</option>
+                            <option value="associate">Associate Producer (₦1M-₦1.9M)</option>
+                            <option value="executive">Executive Producer (₦2M+)</option>
+                            <option value="other">Other Amount</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary" id="submitBtn">Submit Inquiry</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#" onclick="showPage('home')">Home</a>
+                <a href="#story">Story</a>
+                <a href="#cast">Cast & Crew</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#" onclick="showPasswordModal()">Partner with us</a>
+            </div>
+            
+            <div class="social-links">
+                <a href="#" aria-label="Facebook">📘</a>
+                <a href="#" aria-label="Twitter">🐦</a>
+                <a href="#" aria-label="Instagram">📷</a>
+                <a href="#" aria-label="YouTube">▶️</a>
+            </div>
+            
+            <p>&copy; 2024 The Bargain. All rights reserved.</p>
+            
+            <div class="footer-contact-box">
+                <p class="contact-title">Contact Information</p>
+                <p class="contact-info-item">📧 richard@thebargain.com.ng</p>
+                <p class="contact-info-item">📱 +447927292051</p>
+                <p class="contact-info-item">👤 Producer: Richard Awe</p>
+                <p class="contact-info-item">🌐 https://thebargain.com.ng</p>
+            </div>
+            
+            <p class="bible-verse">
+                "Trust in the LORD with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight." – Proverbs 3:5-6
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Management
+        function getTheme() {
+            return localStorage.getItem('theme') || 'light';
+        }
+
+        function setTheme(theme) {
+            localStorage.setItem('theme', theme);
+            document.documentElement.setAttribute('data-theme', theme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = getTheme();
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(newTheme);
+        }
+
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = getTheme();
+            setTheme(savedTheme);
+        });
+
+        // Page Navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            const targetPage = document.getElementById(pageId + '-page');
+            if (targetPage) {
+                targetPage.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Navigation scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && href.length > 1) {
+                    e.preventDefault();
+                    // Switch to home page if on another page
+                    const currentPage = document.querySelector('.page.active');
+                    if (currentPage && currentPage.id !== 'home-page') {
+                        showPage('home');
+                        // Wait for page switch before scrolling
+                        setTimeout(() => {
+                            const target = document.querySelector(href);
+                            if (target) {
+                                target.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'start'
+                                });
+                            }
+                        }, 100);
+                    } else {
+                        const target = document.querySelector(href);
+                        if (target) {
+                            target.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    }
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Password Protection
+        // Default passwords (can be overridden by passwords.txt file)
+        let validPasswords = [
+            'thebargain2024',
+            'partner2024',
+            'invest2024',
+            'thebargain',
+            'partner',
+            'investment',
+            'TB2024',
+            'PARTNER2024'
+        ];
+
+        // Load passwords from file (if available)
+        async function loadPasswords() {
+            try {
+                const response = await fetch('passwords.txt');
+                if (response.ok) {
+                    const text = await response.text();
+                    const filePasswords = text.split('\n')
+                        .map(line => line.trim())
+                        .filter(line => line.length > 0 && !line.startsWith('#'));
+                    if (filePasswords.length > 0) {
+                        validPasswords = filePasswords;
+                        console.log('Passwords loaded from file');
+                    }
+                }
+            } catch (error) {
+                // File not accessible (e.g., CORS issue with file:// protocol)
+                // Use default passwords
+                console.log('Using default passwords (file not accessible)');
+            }
+        }
+
+        // Show password modal
+        function showPasswordModal() {
+            const modal = document.getElementById('passwordModal');
+            const input = document.getElementById('passwordInput');
+            const error = document.getElementById('passwordError');
+            
+            modal.classList.add('active');
+            input.value = '';
+            error.classList.remove('show');
+            input.focus();
+            
+            // Allow Enter key to submit
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkPassword();
+                }
+            });
+        }
+
+        // Close password modal
+        function closePasswordModal() {
+            const modal = document.getElementById('passwordModal');
+            modal.classList.remove('active');
+        }
+
+        // Check password
+        async function checkPassword() {
+            const input = document.getElementById('passwordInput');
+            const error = document.getElementById('passwordError');
+            const password = input.value.trim();
+            
+            // Load passwords if not already loaded
+            if (validPasswords.length === 0) {
+                await loadPasswords();
+            }
+            
+            // Check if password is valid
+            if (validPasswords.includes(password)) {
+                // Password correct - close modal and show investment page
+                closePasswordModal();
+                showPage('invest');
+            } else {
+                // Password incorrect - show error
+                error.classList.add('show');
+                input.value = '';
+                input.focus();
+                
+                // Shake animation
+                input.style.animation = 'shake 0.5s ease';
+                setTimeout(() => {
+                    input.style.animation = '';
+                }, 500);
+            }
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(e) {
+            const modal = document.getElementById('passwordModal');
+            if (e.target === modal) {
+                closePasswordModal();
+            }
+        });
+
+        // Load passwords on page load
+        loadPasswords();
+
+        // Contact Form Handler
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const formMessage = document.getElementById('formMessage');
+                const submitBtn = document.getElementById('submitBtn');
+                const formData = new FormData(this);
+                
+                // Disable submit button
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending...';
+                formMessage.style.display = 'none';
+                
+                try {
+                    const response = await fetch('contact.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        formMessage.style.display = 'block';
+                        formMessage.style.background = 'rgba(76, 175, 80, 0.1)';
+                        formMessage.style.border = '2px solid #4CAF50';
+                        formMessage.style.color = '#2E7D32';
+                        formMessage.textContent = data.message;
+                        
+                        // Reset form
+                        contactForm.reset();
+                        
+                        // Hide message after 5 seconds
+                        setTimeout(() => {
+                            formMessage.style.display = 'none';
+                        }, 5000);
+                    } else {
+                        formMessage.style.display = 'block';
+                        formMessage.style.background = 'rgba(244, 67, 54, 0.1)';
+                        formMessage.style.border = '2px solid #F44336';
+                        formMessage.style.color = '#C62828';
+                        formMessage.textContent = data.message || 'An error occurred. Please try again.';
+                    }
+                } catch (error) {
+                    formMessage.style.display = 'block';
+                    formMessage.style.background = 'rgba(244, 67, 54, 0.1)';
+                    formMessage.style.border = '2px solid #F44336';
+                    formMessage.style.color = '#C62828';
+                    formMessage.textContent = 'Network error. Please check your connection and try again.';
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Submit Inquiry';
+                }
+            });
+        }
+
+        // Observe all fade-in elements
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Lazy load hero video
+            const heroVideo = document.querySelector('.hero-video');
+            if (heroVideo) {
+                const videoSource = heroVideo.querySelector('source');
+                if (videoSource && videoSource.dataset.src) {
+                    // Function to load and play video
+                    const loadVideo = () => {
+                        if (videoSource.dataset.src) {
+                            // Set the source src attribute
+                            videoSource.src = videoSource.dataset.src;
+                            // Also set video src as fallback
+                            heroVideo.src = videoSource.dataset.src;
+                            // Load the video
+                            heroVideo.load();
+                            
+                            // Handle video loading
+                            const handleVideoReady = () => {
+                                heroVideo.classList.add('loaded');
+                                // Try to play the video
+                                heroVideo.play().catch(err => {
+                                    console.log('Video autoplay prevented:', err);
+                                });
+                            };
+
+                            // Listen for when video can play
+                            heroVideo.addEventListener('canplay', handleVideoReady, { once: true });
+                            
+                            // Fallback: show video after loading starts
+                            heroVideo.addEventListener('loadeddata', () => {
+                                heroVideo.classList.add('loaded');
+                            }, { once: true });
+
+                            // Additional fallback after timeout
+                            setTimeout(() => {
+                                if (!heroVideo.classList.contains('loaded')) {
+                                    heroVideo.classList.add('loaded');
+                                }
+                            }, 3000);
+                        }
+                    };
+
+                    // Use Intersection Observer for lazy loading
+                    const videoObserver = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                loadVideo();
+                                videoObserver.unobserve(heroVideo);
+                            }
+                        });
+                    }, {
+                        rootMargin: '0px',
+                        threshold: 0.1
+                    });
+
+                    // Start observing
+                    videoObserver.observe(heroVideo);
+
+                    // Immediate fallback: Hero section is always visible on page load
+                    // Check if hero section is in viewport
+                    const heroSection = heroVideo.closest('.hero');
+                    if (heroSection) {
+                        const rect = heroSection.getBoundingClientRect();
+                        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+                        
+                        if (isVisible) {
+                            // Hero is visible, load video immediately
+                            setTimeout(() => {
+                                if (!heroVideo.classList.contains('loaded')) {
+                                    loadVideo();
+                                }
+                            }, 200);
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

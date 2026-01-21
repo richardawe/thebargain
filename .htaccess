@@ -1,0 +1,28 @@
+# Security: Protect sensitive files
+<Files "submissions.txt">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "rate_limit.txt">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "passwords.txt">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Prevent directory listing
+Options -Indexes
+
+# Enable error pages (optional)
+ErrorDocument 404 /index.html
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>

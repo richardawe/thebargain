@@ -1,0 +1,45 @@
+name: Deploy to cPanel (SSH Alternative)
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Deploy via SSH
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.SSH_PORT || 22 }}
+        source: "."
+        target: ${{ secrets.SSH_TARGET_DIR }}
+        strip_components: 0
+        exclude: |
+          .git
+          .github
+          node_modules
+          .DS_Store
+          README*.md
+          proposal.md
+          .gitignore
+          
+    - name: Upload .htaccess via SSH
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.SSH_PORT || 22 }}
+        source: ".htaccess"
+        target: ${{ secrets.SSH_TARGET_DIR }}
