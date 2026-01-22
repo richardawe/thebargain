@@ -4,6 +4,11 @@
  * Simple email submission endpoint
  */
 
+// Disable error display but enable logging
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+
 // Set headers first (before any output)
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-cache, must-revalidate');
@@ -45,10 +50,14 @@ $body .= "Message:\n" . htmlspecialchars($message, ENT_QUOTES, 'UTF-8') . "\n";
 $headers = "From: noreply@thebargain.com.ng\r\n";
 $headers .= "Reply-To: " . filter_var($email, FILTER_SANITIZE_EMAIL) . "\r\n";
 $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-$headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
 
-// Send email (suppress errors - email might be queued by server)
-$sent = @mail($to, $subject, $body, $headers);
+// Try to send email
+try {
+    $sent = @mail($to, $subject, $body, $headers);
+} catch (Exception $e) {
+    // If mail fails, still return success (email might be queued)
+    $sent = false;
+}
 
 // Always return success (email might be queued even if mail() returns false)
 echo json_encode([
@@ -56,4 +65,3 @@ echo json_encode([
     'message' => 'Thank you! Your message has been sent. We will contact you soon.'
 ]);
 exit;
-?>
