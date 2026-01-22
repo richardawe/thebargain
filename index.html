@@ -3103,29 +3103,67 @@ Message:
 ${message}`;
                 
                 // Create mailto link
-                const mailtoLink = `mailto:richard@thebargain.com.ng?subject=New Investment Inquiry - The Bargain&body=${encodeURIComponent(emailBody)}`;
+                const mailtoLink = `mailto:richard@thebargain.com.ng?subject=${encodeURIComponent('New Investment Inquiry - The Bargain')}&body=${encodeURIComponent(emailBody)}`;
                 
-                // Open email client
-                window.location.href = mailtoLink;
-                
-                // Show success message
-                if (formMessage) {
-                    formMessage.style.display = 'block';
-                    formMessage.style.background = 'rgba(76, 175, 80, 0.1)';
-                    formMessage.style.border = '2px solid #4CAF50';
-                    formMessage.style.color = '#2E7D32';
-                    formMessage.textContent = 'Your email client should open. Please send the email to complete your inquiry.';
+                // Try to open email client
+                try {
+                    window.location.href = mailtoLink;
                     
-                    // Hide message after 10 seconds
-                    setTimeout(() => {
-                        formMessage.style.display = 'none';
-                    }, 10000);
+                    // Show success message with email details
+                    if (formMessage) {
+                        formMessage.style.display = 'block';
+                        formMessage.style.background = 'rgba(76, 175, 80, 0.1)';
+                        formMessage.style.border = '2px solid #4CAF50';
+                        formMessage.style.color = '#2E7D32';
+                        formMessage.innerHTML = `
+                            <strong>Email client opening...</strong><br>
+                            If it doesn't open, please email: <strong>richard@thebargain.com.ng</strong><br>
+                            <small>Subject: New Investment Inquiry - The Bargain</small>
+                        `;
+                        
+                        // Also show email content in a copyable format
+                        const emailContentDiv = document.createElement('div');
+                        emailContentDiv.style.cssText = 'margin-top: 1rem; padding: 1rem; background: rgba(0,0,0,0.05); border-radius: 8px; font-family: monospace; font-size: 0.9rem; white-space: pre-wrap; max-height: 200px; overflow-y: auto;';
+                        emailContentDiv.textContent = emailBody;
+                        formMessage.appendChild(emailContentDiv);
+                        
+                        // Add copy button
+                        const copyBtn = document.createElement('button');
+                        copyBtn.textContent = 'Copy Email Content';
+                        copyBtn.style.cssText = 'margin-top: 0.5rem; padding: 0.5rem 1rem; background: var(--primary); color: white; border: none; border-radius: 5px; cursor: pointer;';
+                        copyBtn.onclick = function() {
+                            navigator.clipboard.writeText(emailBody).then(() => {
+                                copyBtn.textContent = 'Copied!';
+                                setTimeout(() => copyBtn.textContent = 'Copy Email Content', 2000);
+                            });
+                        };
+                        formMessage.appendChild(copyBtn);
+                        
+                        // Hide message after 30 seconds
+                        setTimeout(() => {
+                            formMessage.style.display = 'none';
+                        }, 30000);
+                    }
+                } catch (error) {
+                    // Fallback: show email content directly
+                    if (formMessage) {
+                        formMessage.style.display = 'block';
+                        formMessage.style.background = 'rgba(255, 193, 7, 0.1)';
+                        formMessage.style.border = '2px solid #FFC107';
+                        formMessage.style.color = '#F57C00';
+                        formMessage.innerHTML = `
+                            <strong>Please send an email to: richard@thebargain.com.ng</strong><br>
+                            <small>Subject: New Investment Inquiry - The Bargain</small>
+                            <div style="margin-top: 1rem; padding: 1rem; background: rgba(0,0,0,0.05); border-radius: 8px; font-family: monospace; font-size: 0.9rem; white-space: pre-wrap;">${emailBody}</div>
+                            <button onclick="navigator.clipboard.writeText('${emailBody.replace(/'/g, "\\'")}')" style="margin-top: 0.5rem; padding: 0.5rem 1rem; background: var(--primary); color: white; border: none; border-radius: 5px; cursor: pointer;">Copy Email Content</button>
+                        `;
+                    }
                 }
                 
                 // Reset form after a delay
                 setTimeout(() => {
                     form.reset();
-                }, 1000);
+                }, 2000);
             }
         });
 
