@@ -3487,41 +3487,38 @@
             }
         }
 
-        // Jump to form (scroll to form in the last slide)
+        // Jump to form (close modal and scroll to form on main page)
         function jumpToPartnerForm() {
-            if (partnerSlides.length === 0) {
-                // If slides not generated, generate them first
-                generatePartnerSlides();
-                if (partnerSlides.length === 0) return;
-            }
-
-            // Show last slide (which should contain the form)
-            const lastSlideIndex = partnerSlides.length - 1;
-            showPartnerSlide(lastSlideIndex);
-
-            // Scroll to form within the slide
+            // Close the modal
+            closePartnerModal();
+            
+            // Navigate to invest page and scroll to form
             setTimeout(() => {
-                const lastSlide = partnerSlides[lastSlideIndex];
-                const form = lastSlide.querySelector('#contactForm') || lastSlide.querySelector('form');
-                if (form) {
-                    // Scroll the modal content to show the form
-                    const slidesWrapper = document.getElementById('partnerSlidesWrapper');
-                    if (slidesWrapper) {
-                        const formRect = form.getBoundingClientRect();
-                        const wrapperRect = slidesWrapper.getBoundingClientRect();
-                        const scrollTop = slidesWrapper.scrollTop + formRect.top - wrapperRect.top - 50;
-                        slidesWrapper.scrollTo({ top: scrollTop, behavior: 'smooth' });
+                // Show the invest page
+                showPage('invest');
+                
+                // Scroll to form after page is shown
+                setTimeout(() => {
+                    const form = document.getElementById('contactForm');
+                    if (form) {
+                        form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        // Highlight the form briefly
+                        form.style.transition = 'box-shadow 0.3s ease';
+                        form.style.boxShadow = '0 0 20px rgba(255, 215, 0, 0.5)';
+                        setTimeout(() => {
+                            form.style.boxShadow = '';
+                        }, 2000);
+                        
+                        // Focus on first input
+                        setTimeout(() => {
+                            const firstInput = form.querySelector('input, textarea, select');
+                            if (firstInput) {
+                                firstInput.focus();
+                            }
+                        }, 500);
                     }
-                    
-                    // Focus on first input
-                    setTimeout(() => {
-                        const firstInput = form.querySelector('input, textarea, select');
-                        if (firstInput) {
-                            firstInput.focus();
-                        }
-                    }, 500);
-                }
-            }, 300);
+                }, 300);
+            }, 200);
         }
 
         // Close modal when clicking outside
