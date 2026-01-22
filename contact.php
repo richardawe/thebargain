@@ -65,6 +65,49 @@ $headers = "From: noreply@thebargain.com.ng\r\n";
 $headers .= "Reply-To: " . $sanitized_email . "\r\n";
 $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
+// Save submission to file (backup even if email fails)
+$submissions_file = 'submissions.txt';
+$submission_data = [
+    'timestamp' => date('Y-m-d H:i:s'),
+    'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+    'name' => $name,
+    'email' => $email,
+    'phone' => $phone,
+    'investment' => $investment,
+    'message' => $message
+];
+
+// Format submission entry
+$entry = "========================================\n";
+$entry .= "Date: " . $submission_data['timestamp'] . "\n";
+$entry .= "IP: " . $submission_data['ip'] . "\n";
+$entry .= "Name: " . $submission_data['name'] . "\n";
+$entry .= "Email: " . $submission_data['email'] . "\n";
+$entry .= "Phone: " . $submission_data['phone'] . "\n";
+$entry .= "Investment: " . $submission_data['investment'] . "\n";
+$entry .= "Message: " . $submission_data['message'] . "\n";
+$entry .= "========================================\n\n";
+
+// Save to file with file locking for safety
+try {
+    $fp = fopen($submissions_file, 'a');
+    if ($fp && flock($fp, LOCK_EX)) {
+        fwrite($fp, $entry);
+        flock($fp, LOCK_UN);
+        fclose($fp);
+    } else {
+        // If file locking fails, try without lock (less safe but better than nothing)
+        if ($fp) {
+            fclose($fp);
+        }
+        // Fallback: append without locking
+        file_put_contents($submissions_file, $entry, FILE_APPEND | LOCK_EX);
+    }
+} catch (Exception $e) {
+    // Log error but don't fail the submission
+    error_log("Contact form: Failed to save submission to file: " . $e->getMessage());
+}
+
 // Try to send email
 $sent = false;
 if (function_exists('mail')) {
