@@ -3054,19 +3054,25 @@
         }
 
         // Contact Form Handler (simplified - no CSRF)
-        const contactForm = document.getElementById('contactForm');
-        if (contactForm) {
-            contactForm.addEventListener('submit', async function(e) {
+        // Use event delegation to handle forms in both original page and cloned slides
+        document.addEventListener('submit', async function(e) {
+            // Only handle forms with id="contactForm"
+            if (e.target && e.target.id === 'contactForm') {
                 e.preventDefault();
                 
-                const formMessage = document.getElementById('formMessage');
-                const submitBtn = document.getElementById('submitBtn');
-                const formData = new FormData(this);
+                const form = e.target;
+                const formMessage = form.querySelector('#formMessage') || document.getElementById('formMessage');
+                const submitBtn = form.querySelector('#submitBtn') || document.getElementById('submitBtn');
+                const formData = new FormData(form);
                 
                 // Disable submit button
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Sending...';
-                formMessage.style.display = 'none';
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Sending...';
+                }
+                if (formMessage) {
+                    formMessage.style.display = 'none';
+                }
                 
                 try {
                     const response = await fetch('contact.php', {
@@ -3080,40 +3086,46 @@
                     
                     const data = await response.json();
                     
-                    if (data.success) {
-                        formMessage.style.display = 'block';
-                        formMessage.style.background = 'rgba(76, 175, 80, 0.1)';
-                        formMessage.style.border = '2px solid #4CAF50';
-                        formMessage.style.color = '#2E7D32';
-                        formMessage.textContent = data.message;
-                        
-                        // Reset form
-                        contactForm.reset();
-                        
-                        // Hide message after 5 seconds
-                        setTimeout(() => {
-                            formMessage.style.display = 'none';
-                        }, 5000);
-                    } else {
+                    if (formMessage) {
+                        if (data.success) {
+                            formMessage.style.display = 'block';
+                            formMessage.style.background = 'rgba(76, 175, 80, 0.1)';
+                            formMessage.style.border = '2px solid #4CAF50';
+                            formMessage.style.color = '#2E7D32';
+                            formMessage.textContent = data.message;
+                            
+                            // Reset form
+                            form.reset();
+                            
+                            // Hide message after 5 seconds
+                            setTimeout(() => {
+                                formMessage.style.display = 'none';
+                            }, 5000);
+                        } else {
+                            formMessage.style.display = 'block';
+                            formMessage.style.background = 'rgba(244, 67, 54, 0.1)';
+                            formMessage.style.border = '2px solid #F44336';
+                            formMessage.style.color = '#C62828';
+                            formMessage.textContent = data.message || 'An error occurred. Please try again.';
+                        }
+                    }
+                } catch (error) {
+                    console.error('Form submission error:', error);
+                    if (formMessage) {
                         formMessage.style.display = 'block';
                         formMessage.style.background = 'rgba(244, 67, 54, 0.1)';
                         formMessage.style.border = '2px solid #F44336';
                         formMessage.style.color = '#C62828';
-                        formMessage.textContent = data.message || 'An error occurred. Please try again.';
+                        formMessage.textContent = 'Network error. Please check your connection and try again.';
                     }
-                } catch (error) {
-                    console.error('Form submission error:', error);
-                    formMessage.style.display = 'block';
-                    formMessage.style.background = 'rgba(244, 67, 54, 0.1)';
-                    formMessage.style.border = '2px solid #F44336';
-                    formMessage.style.color = '#C62828';
-                    formMessage.textContent = 'Network error. Please check your connection and try again.';
                 } finally {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Submit Inquiry';
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Submit Inquiry';
+                    }
                 }
-            });
-        }
+            }
+        });
 
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
