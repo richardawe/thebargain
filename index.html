@@ -3080,7 +3080,18 @@
                         body: formData
                     });
                     
-                    const data = await response.json();
+                    // Get response text first
+                    const responseText = await response.text();
+                    
+                    // Try to parse as JSON
+                    let data;
+                    try {
+                        data = JSON.parse(responseText);
+                    } catch (parseError) {
+                        // If not JSON, check if it's an error page
+                        console.error('Invalid JSON response:', responseText);
+                        throw new Error('Server returned invalid response. Please try again.');
+                    }
                     
                     if (formMessage) {
                         if (data.success) {
@@ -3112,7 +3123,7 @@
                         formMessage.style.background = 'rgba(244, 67, 54, 0.1)';
                         formMessage.style.border = '2px solid #F44336';
                         formMessage.style.color = '#C62828';
-                        formMessage.textContent = 'Error sending message. Please try again or email richard@thebargain.com.ng directly.';
+                        formMessage.textContent = error.message || 'Error sending message. Please try again or email richard@thebargain.com.ng directly.';
                     }
                 } finally {
                     if (submitBtn) {
