@@ -10,15 +10,13 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
-    - name: Setup Node.js (if needed for any build steps)
-      uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        fetch-depth: 1
         
     - name: Deploy to cPanel via FTP
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -29,3 +27,19 @@ jobs:
         local-dir: ./
         server-dir: ${{ secrets.FTP_DIRECTORY }}/
         dangerous-clean-slate: false
+        exclude: |
+          **/.git*
+          **/.git*/**
+          **/.github/**
+          **/node_modules/**
+          **/.DS_Store
+          **/.vscode/**
+          **/README*.md
+          **/DEPLOYMENT*.md
+          **/QUICK_START.md
+          **/proposal.md
+          **/setup-git.sh
+          **/submissions.txt
+          **/rate_limit.txt
+          **/password_rate_limit.txt
+          **/passwords.txt
