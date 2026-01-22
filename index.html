@@ -3054,7 +3054,7 @@
         }
 
         // Contact Form Handler - Simple PHP submission
-        // Use event delegation to handle forms in both original page and cloned slides
+        // Form only exists on main page (not in slides)
         document.addEventListener('submit', async function(e) {
             // Only handle forms with id="contactForm"
             if (e.target && e.target.id === 'contactForm') {
