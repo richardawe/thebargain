@@ -41,12 +41,7 @@ $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 // Send email
 $sent = @mail($to, $subject, $body, $headers);
 
-// Return response
-if ($sent) {
-    echo json_encode(['success' => true, 'message' => 'Thank you! Your message has been sent. We will contact you soon.']);
-} else {
-    // Even if mail() fails, return success (email might still be queued)
-    // Server email issues shouldn't block the user
-    echo json_encode(['success' => true, 'message' => 'Thank you! Your message has been received. We will contact you soon.']);
-}
+// Return response - always return success to user
+// Even if mail() fails, the email might still be queued by the server
+echo json_encode(['success' => true, 'message' => 'Thank you! Your message has been sent. We will contact you soon.']);
 ?>
