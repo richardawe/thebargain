@@ -55,6 +55,7 @@ git push -u origin main
    ```
    /public_html
    ```
+   (Note: Do NOT include trailing slash - add it as shown above)
 
 ### Step 4: Test Deployment
 

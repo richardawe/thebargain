@@ -47,8 +47,9 @@ This guide will help you set up automatic deployment from GitHub to your cPanel 
 - **How to find**: The password you set when creating the FTP account
 
 #### `FTP_DIRECTORY`
-- **Value**: The directory path on the server
+- **Value**: The directory path on the server (WITHOUT trailing slash)
 - **Example**: `/public_html` or `/home/username/public_html`
+- **Important**: Do NOT include trailing slash - the workflow adds it automatically
 - **How to find**: 
   - Usually `/public_html` for main domain
   - Or `/home/yourusername/public_html`
