@@ -3053,94 +3053,15 @@
             }
         }
 
-        // Contact Form Handler with CSRF and reCAPTCHA
+        // Contact Form Handler (simplified - no CSRF)
         const contactForm = document.getElementById('contactForm');
         if (contactForm) {
-            // Load CSRF token and add to form
-            loadCSRFToken().then(() => {
-                if (csrfToken) {
-                    // Check if token input already exists
-                    let csrfInput = contactForm.querySelector('input[name="csrf_token"]');
-                    if (!csrfInput) {
-                        csrfInput = document.createElement('input');
-                        csrfInput.type = 'hidden';
-                        csrfInput.name = 'csrf_token';
-                        contactForm.appendChild(csrfInput);
-                    }
-                    csrfInput.value = csrfToken;
-                }
-            }).catch(err => {
-                console.error('Failed to initialize CSRF token:', err);
-            });
-
             contactForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
                 const formMessage = document.getElementById('formMessage');
                 const submitBtn = document.getElementById('submitBtn');
-                
-                // Ensure CSRF token is loaded before submission
-                if (!csrfToken) {
-                    await loadCSRFToken();
-                }
-                
-                // If still no token, try to get it from the form
-                if (!csrfToken) {
-                    const existingToken = contactForm.querySelector('input[name="csrf_token"]');
-                    if (existingToken) {
-                        csrfToken = existingToken.value;
-                    }
-                }
-                
-                // If still no token, reload from server
-                if (!csrfToken) {
-                    try {
-                        const tokenResponse = await fetch('get-csrf-token.php', {
-                            method: 'GET',
-                            credentials: 'same-origin',
-                            cache: 'no-cache'
-                        });
-                        if (tokenResponse.ok) {
-                            const tokenData = await tokenResponse.json();
-                            if (tokenData.csrf_token) {
-                                csrfToken = tokenData.csrf_token;
-                            }
-                        }
-                    } catch (err) {
-                        console.error('Failed to load CSRF token:', err);
-                        formMessage.style.display = 'block';
-                        formMessage.style.background = 'rgba(244, 67, 54, 0.1)';
-                        formMessage.style.border = '2px solid #F44336';
-                        formMessage.style.color = '#C62828';
-                        formMessage.textContent = 'Unable to verify security token. Please refresh the page and try again.';
-                        return;
-                    }
-                }
-                
                 const formData = new FormData(this);
-                
-                // Add CSRF token (must be present)
-                if (csrfToken) {
-                    formData.set('csrf_token', csrfToken);
-                } else {
-                    formMessage.style.display = 'block';
-                    formMessage.style.background = 'rgba(244, 67, 54, 0.1)';
-                    formMessage.style.border = '2px solid #F44336';
-                    formMessage.style.color = '#C62828';
-                    formMessage.textContent = 'Security token missing. Please refresh the page and try again.';
-                    return;
-                }
-                
-                // reCAPTCHA (if enabled - add your site key in the script tag)
-                const recaptchaSiteKey = ''; // Will be set from script if reCAPTCHA is enabled
-                if (typeof grecaptcha !== 'undefined' && recaptchaSiteKey) {
-                    try {
-                        const recaptchaToken = await grecaptcha.execute(recaptchaSiteKey, {action: 'submit'});
-                        formData.append('recaptcha_token', recaptchaToken);
-                    } catch (error) {
-                        console.log('reCAPTCHA error:', error);
-                    }
-                }
                 
                 // Disable submit button
                 submitBtn.disabled = true;
@@ -3150,9 +3071,12 @@
                 try {
                     const response = await fetch('contact.php', {
                         method: 'POST',
-                        body: formData,
-                        credentials: 'same-origin' // Critical: Send session cookies
+                        body: formData
                     });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
                     
                     const data = await response.json();
                     
@@ -3166,21 +3090,6 @@
                         // Reset form
                         contactForm.reset();
                         
-                        // Reload CSRF token for next submission
-                        await loadCSRFToken();
-                        if (csrfToken) {
-                            const csrfInput = contactForm.querySelector('input[name="csrf_token"]');
-                            if (csrfInput) {
-                                csrfInput.value = csrfToken;
-                            } else {
-                                const newCsrfInput = document.createElement('input');
-                                newCsrfInput.type = 'hidden';
-                                newCsrfInput.name = 'csrf_token';
-                                newCsrfInput.value = csrfToken;
-                                contactForm.appendChild(newCsrfInput);
-                            }
-                        }
-                        
                         // Hide message after 5 seconds
                         setTimeout(() => {
                             formMessage.style.display = 'none';
@@ -3191,25 +3100,9 @@
                         formMessage.style.border = '2px solid #F44336';
                         formMessage.style.color = '#C62828';
                         formMessage.textContent = data.message || 'An error occurred. Please try again.';
-                        
-                        // If CSRF token error, reload token and update form
-                        if (data.message && data.message.includes('security token') || data.message.includes('CSRF')) {
-                            await loadCSRFToken();
-                            if (csrfToken) {
-                                const csrfInput = contactForm.querySelector('input[name="csrf_token"]');
-                                if (csrfInput) {
-                                    csrfInput.value = csrfToken;
-                                } else {
-                                    const newCsrfInput = document.createElement('input');
-                                    newCsrfInput.type = 'hidden';
-                                    newCsrfInput.name = 'csrf_token';
-                                    newCsrfInput.value = csrfToken;
-                                    contactForm.appendChild(newCsrfInput);
-                                }
-                            }
-                        }
                     }
                 } catch (error) {
+                    console.error('Form submission error:', error);
                     formMessage.style.display = 'block';
                     formMessage.style.background = 'rgba(244, 67, 54, 0.1)';
                     formMessage.style.border = '2px solid #F44336';

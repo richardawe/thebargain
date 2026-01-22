@@ -4,14 +4,6 @@
  * Handles form submissions, sends emails, and stores submissions
  */
 
-// Configure session for better cookie handling
-ini_set('session.cookie_httponly', 1);
-ini_set('session.cookie_samesite', 'Lax');
-ini_set('session.use_strict_mode', 1);
-
-// Start session for CSRF protection
-session_start();
-
 // Configuration
 $admin_email = 'richard@thebargain.com.ng';
 $site_name = 'The Bargain';
@@ -27,27 +19,6 @@ header('X-Content-Type-Options: nosniff');
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['success' => false, 'message' => 'Method not allowed']);
-    exit;
-}
-
-// CSRF Protection
-if (!isset($_POST['csrf_token'])) {
-    http_response_code(403);
-    echo json_encode(['success' => false, 'message' => 'Security token missing. Please refresh the page and try again.']);
-    exit;
-}
-
-if (!isset($_SESSION['csrf_token'])) {
-    // Generate token if session doesn't have one (shouldn't happen, but handle gracefully)
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-    http_response_code(403);
-    echo json_encode(['success' => false, 'message' => 'Session expired. Please refresh the page and try again.']);
-    exit;
-}
-
-if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-    http_response_code(403);
-    echo json_encode(['success' => false, 'message' => 'Invalid security token. Please refresh the page and try again.']);
     exit;
 }
 
