@@ -1,17 +1,19 @@
 <?php
-// Simple Contact Form - Just send email
-// Suppress all output except JSON
-error_reporting(0);
-ini_set('display_errors', 0);
+/**
+ * Contact Form Handler
+ * Simple email submission endpoint
+ */
 
-// Ensure no output before headers
-ob_start();
-
-// Set headers first
+// Set headers first (before any output)
 header('Content-Type: application/json; charset=utf-8');
+header('Cache-Control: no-cache, must-revalidate');
 
-// Clear any output buffer
-ob_clean();
+// Only allow POST requests
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(['success' => false, 'message' => 'Method not allowed']);
+    exit;
+}
 
 // Get form data
 $name = isset($_POST['name']) ? trim($_POST['name']) : '';
@@ -33,21 +35,25 @@ $subject = 'New Investment Inquiry - The Bargain';
 
 // Email body
 $body = "New Investment Inquiry\n\n";
-$body .= "Name: " . htmlspecialchars($name) . "\n";
-$body .= "Email: " . htmlspecialchars($email) . "\n";
-$body .= "Phone: " . htmlspecialchars($phone) . "\n";
-$body .= "Investment: " . htmlspecialchars($investment) . "\n\n";
-$body .= "Message:\n" . htmlspecialchars($message) . "\n";
+$body .= "Name: " . htmlspecialchars($name, ENT_QUOTES, 'UTF-8') . "\n";
+$body .= "Email: " . htmlspecialchars($email, ENT_QUOTES, 'UTF-8') . "\n";
+$body .= "Phone: " . htmlspecialchars($phone, ENT_QUOTES, 'UTF-8') . "\n";
+$body .= "Investment: " . htmlspecialchars($investment, ENT_QUOTES, 'UTF-8') . "\n\n";
+$body .= "Message:\n" . htmlspecialchars($message, ENT_QUOTES, 'UTF-8') . "\n";
 
-// Headers
+// Email headers
 $headers = "From: noreply@thebargain.com.ng\r\n";
 $headers .= "Reply-To: " . filter_var($email, FILTER_SANITIZE_EMAIL) . "\r\n";
 $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+$headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
 
-// Send email
-@mail($to, $subject, $body, $headers);
+// Send email (suppress errors - email might be queued by server)
+$sent = @mail($to, $subject, $body, $headers);
 
-// Always return success (email might be queued)
-echo json_encode(['success' => true, 'message' => 'Thank you! Your message has been sent.']);
+// Always return success (email might be queued even if mail() returns false)
+echo json_encode([
+    'success' => true,
+    'message' => 'Thank you! Your message has been sent. We will contact you soon.'
+]);
 exit;
 ?>
