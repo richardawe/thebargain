@@ -3294,19 +3294,33 @@
         // Generate slides from investment page content
         function generatePartnerSlides() {
             const investPage = document.getElementById('invest-page');
-            if (!investPage) return;
+            if (!investPage) {
+                console.warn('Invest page not found, cannot generate slides');
+                return;
+            }
 
             const sections = investPage.querySelectorAll('section');
             const slidesWrapper = document.getElementById('partnerSlidesWrapper');
-            if (!slidesWrapper) return;
+            if (!slidesWrapper) {
+                console.warn('Slides wrapper not found');
+                return;
+            }
 
             partnerSlides = [];
             slidesWrapper.innerHTML = '';
 
+            if (sections.length === 0) {
+                console.warn('No sections found in invest page');
+                return;
+            }
+
             sections.forEach((section, index) => {
                 // Skip empty sections or sections without meaningful content
                 const title = section.querySelector('.section-title');
-                if (!title) return;
+                if (!title) {
+                    console.log(`Skipping section ${index} - no title found`);
+                    return;
+                }
 
                 const slide = document.createElement('div');
                 slide.className = 'partner-slide';
@@ -3324,12 +3338,16 @@
                 partnerSlides.push(slide);
             });
 
+            console.log(`Generated ${partnerSlides.length} slides`);
+
             // Create slide indicators
             createSlideIndicators();
             
-            // Show first slide
+            // Show first slide if we have slides
             if (partnerSlides.length > 0) {
                 showPartnerSlide(0);
+            } else {
+                console.error('No slides were generated');
             }
         }
 
@@ -3404,7 +3422,10 @@
         // Open partner modal
         async function openPartnerModal() {
             const modal = document.getElementById('partnerModal');
-            if (!modal) return;
+            if (!modal) {
+                console.error('Partner modal not found');
+                return;
+            }
 
             // Check authorization
             const authorized = await checkAuthorization();
@@ -3413,14 +3434,23 @@
                 return;
             }
 
+            // Show modal first
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
             // Generate slides if not already generated
             if (partnerSlides.length === 0) {
                 generatePartnerSlides();
+                // Wait a bit for slides to be generated
+                setTimeout(() => {
+                    if (partnerSlides.length > 0) {
+                        showPartnerSlide(0);
+                    }
+                }, 100);
+            } else {
+                // Ensure first slide is shown
+                showPartnerSlide(0);
             }
-
-            // Show modal
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
 
             // Update URL (use hash for better compatibility)
             if (window.location.hash !== '#/partner' && window.location.hash !== '#partner') {
