@@ -8,6 +8,11 @@
 $passwords_file = 'passwords.txt';
 $session_timeout = 3600; // 1 hour
 
+// Configure session for better cookie handling
+ini_set('session.cookie_httponly', 1);
+ini_set('session.cookie_samesite', 'Lax');
+ini_set('session.use_strict_mode', 1);
+
 // Start session
 session_start();
 

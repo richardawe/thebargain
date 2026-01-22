@@ -2812,7 +2812,8 @@
             try {
                 const response = await fetch('get-csrf-token.php', {
                     method: 'GET',
-                    credentials: 'same-origin' // Important for session cookies
+                    credentials: 'same-origin', // Important for session cookies
+                    cache: 'no-cache' // Ensure fresh token
                 });
                 
                 // Check if response is actually JSON (not PHP error page)
@@ -2863,7 +2864,9 @@
             
             // Try server-side check
             try {
-                const response = await fetch('check-auth.php');
+                const response = await fetch('check-auth.php', {
+                    credentials: 'same-origin'
+                });
                 const data = await response.json();
                 return data.authorized === true;
             } catch (error) {
@@ -2927,7 +2930,8 @@
                 
                 const response = await fetch('validate-password.php', {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    credentials: 'same-origin'
                 });
                 
                 // Check if response is OK
@@ -3091,7 +3095,11 @@
                 // If still no token, reload from server
                 if (!csrfToken) {
                     try {
-                        const tokenResponse = await fetch('get-csrf-token.php');
+                        const tokenResponse = await fetch('get-csrf-token.php', {
+                            method: 'GET',
+                            credentials: 'same-origin',
+                            cache: 'no-cache'
+                        });
                         if (tokenResponse.ok) {
                             const tokenData = await tokenResponse.json();
                             if (tokenData.csrf_token) {
@@ -3142,7 +3150,8 @@
                 try {
                     const response = await fetch('contact.php', {
                         method: 'POST',
-                        body: formData
+                        body: formData,
+                        credentials: 'same-origin' // Critical: Send session cookies
                     });
                     
                     const data = await response.json();

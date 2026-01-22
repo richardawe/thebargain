@@ -4,6 +4,11 @@
  * Handles form submissions, sends emails, and stores submissions
  */
 
+// Configure session for better cookie handling
+ini_set('session.cookie_httponly', 1);
+ini_set('session.cookie_samesite', 'Lax');
+ini_set('session.use_strict_mode', 1);
+
 // Start session for CSRF protection
 session_start();
 

@@ -3,6 +3,11 @@
  * Generate and return CSRF token
  */
 
+// Configure session for better cookie handling
+ini_set('session.cookie_httponly', 1);
+ini_set('session.cookie_samesite', 'Lax');
+ini_set('session.use_strict_mode', 1);
+
 session_start();
 
 // Generate CSRF token if it doesn't exist
