@@ -26,7 +26,21 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // CSRF Protection
-if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+if (!isset($_POST['csrf_token'])) {
+    http_response_code(403);
+    echo json_encode(['success' => false, 'message' => 'Security token missing. Please refresh the page and try again.']);
+    exit;
+}
+
+if (!isset($_SESSION['csrf_token'])) {
+    // Generate token if session doesn't have one (shouldn't happen, but handle gracefully)
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    http_response_code(403);
+    echo json_encode(['success' => false, 'message' => 'Session expired. Please refresh the page and try again.']);
+    exit;
+}
+
+if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
     http_response_code(403);
     echo json_encode(['success' => false, 'message' => 'Invalid security token. Please refresh the page and try again.']);
     exit;
