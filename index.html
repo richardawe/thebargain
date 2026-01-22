@@ -2616,7 +2616,7 @@
                     </div>
                 </div>
                 
-                <form class="contact-form" id="contactForm" method="POST" action="contact.php">
+                <form class="contact-form" id="contactForm" method="GET" action="mailto:richard@thebargain.com.ng" enctype="text/plain">
                     <div id="formMessage" style="display: none; padding: 1rem; border-radius: 10px; margin-bottom: 1.5rem; text-align: center; font-weight: 600;"></div>
                     
                     <div class="form-group">
@@ -3053,9 +3053,9 @@
             }
         }
 
-        // Contact Form Handler (simplified - no CSRF)
+        // Contact Form Handler - Simple mailto with formatted email
         // Use event delegation to handle forms in both original page and cloned slides
-        document.addEventListener('submit', async function(e) {
+        document.addEventListener('submit', function(e) {
             // Only handle forms with id="contactForm"
             if (e.target && e.target.id === 'contactForm') {
                 e.preventDefault();
@@ -3063,67 +3063,69 @@
                 const form = e.target;
                 const formMessage = form.querySelector('#formMessage') || document.getElementById('formMessage');
                 const submitBtn = form.querySelector('#submitBtn') || document.getElementById('submitBtn');
-                const formData = new FormData(form);
                 
-                // Disable submit button
-                if (submitBtn) {
-                    submitBtn.disabled = true;
-                    submitBtn.textContent = 'Sending...';
-                }
-                if (formMessage) {
-                    formMessage.style.display = 'none';
-                }
+                // Get form values
+                const name = form.querySelector('[name="name"]').value || '';
+                const email = form.querySelector('[name="email"]').value || '';
+                const phone = form.querySelector('[name="phone"]').value || '';
+                const investment = form.querySelector('[name="investment"]').value || '';
+                const message = form.querySelector('[name="message"]').value || '';
                 
-                try {
-                    const response = await fetch('contact.php', {
-                        method: 'POST',
-                        body: formData
-                    });
-                    
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    
-                    const data = await response.json();
-                    
-                    if (formMessage) {
-                        if (data.success) {
-                            formMessage.style.display = 'block';
-                            formMessage.style.background = 'rgba(76, 175, 80, 0.1)';
-                            formMessage.style.border = '2px solid #4CAF50';
-                            formMessage.style.color = '#2E7D32';
-                            formMessage.textContent = data.message;
-                            
-                            // Reset form
-                            form.reset();
-                            
-                            // Hide message after 5 seconds
-                            setTimeout(() => {
-                                formMessage.style.display = 'none';
-                            }, 5000);
-                        } else {
-                            formMessage.style.display = 'block';
-                            formMessage.style.background = 'rgba(244, 67, 54, 0.1)';
-                            formMessage.style.border = '2px solid #F44336';
-                            formMessage.style.color = '#C62828';
-                            formMessage.textContent = data.message || 'An error occurred. Please try again.';
-                        }
-                    }
-                } catch (error) {
-                    console.error('Form submission error:', error);
+                // Validate required fields
+                if (!name || !email || !message) {
                     if (formMessage) {
                         formMessage.style.display = 'block';
                         formMessage.style.background = 'rgba(244, 67, 54, 0.1)';
                         formMessage.style.border = '2px solid #F44336';
                         formMessage.style.color = '#C62828';
-                        formMessage.textContent = 'Network error. Please check your connection and try again.';
+                        formMessage.textContent = 'Please fill in all required fields.';
                     }
-                } finally {
-                    if (submitBtn) {
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = 'Submit Inquiry';
-                    }
+                    return;
                 }
+                
+                // Format email body
+                const investmentLabels = {
+                    'minimum': 'Minimum Investment (₦500,000+)',
+                    'associate': 'Associate Producer (₦1M-₦1.9M)',
+                    'executive': 'Executive Producer (₦2M+)',
+                    'other': 'Other Amount'
+                };
+                const investmentLabel = investmentLabels[investment] || investment;
+                
+                const emailBody = `New Investment Inquiry - The Bargain
+
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+Investment Interest: ${investmentLabel}
+
+Message:
+${message}`;
+                
+                // Create mailto link
+                const mailtoLink = `mailto:richard@thebargain.com.ng?subject=New Investment Inquiry - The Bargain&body=${encodeURIComponent(emailBody)}`;
+                
+                // Open email client
+                window.location.href = mailtoLink;
+                
+                // Show success message
+                if (formMessage) {
+                    formMessage.style.display = 'block';
+                    formMessage.style.background = 'rgba(76, 175, 80, 0.1)';
+                    formMessage.style.border = '2px solid #4CAF50';
+                    formMessage.style.color = '#2E7D32';
+                    formMessage.textContent = 'Your email client should open. Please send the email to complete your inquiry.';
+                    
+                    // Hide message after 10 seconds
+                    setTimeout(() => {
+                        formMessage.style.display = 'none';
+                    }, 10000);
+                }
+                
+                // Reset form after a delay
+                setTimeout(() => {
+                    form.reset();
+                }, 1000);
             }
         });
 
