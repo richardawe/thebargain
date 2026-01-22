@@ -193,9 +193,7 @@ $user_headers .= "X-MSMail-Priority: Normal\r\n";
 $admin_email_sent = @mail($admin_email, $safe_subject, $admin_body, $headers);
 $user_email_sent = @mail($safe_email, $user_subject, $user_body, $user_headers);
 
-// Regenerate CSRF token after successful submission
-session_regenerate_id(true);
-$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+// No session or CSRF token needed
 
 // Store submission in file
 $submission_data = [
