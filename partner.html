@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner with Us - The Bargain</title>
+    <script>
+        // Redirect to index.html with hash
+        // Use replace to avoid adding to history
+        if (window.location.pathname === '/partner' || window.location.pathname === '/partner.html') {
+            window.location.replace(window.location.origin + '/index.html#/partner');
+        }
+    </script>
+</head>
+<body>
+    <p>Redirecting to partner page...</p>
+    <script>
+        // Fallback redirect
+        setTimeout(function() {
+            window.location.href = '/index.html#/partner';
+        }, 100);
+    </script>
+</body>
+</html>

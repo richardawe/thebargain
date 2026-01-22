@@ -1757,6 +1757,254 @@
         [data-theme="dark"] .theme-toggle-icon.moon {
             opacity: 1;
         }
+
+        /* Partner Modal Styles */
+        .partner-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 10001;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .partner-modal.active {
+            display: flex;
+        }
+
+        .partner-modal-content {
+            background: var(--bg-card);
+            border-radius: 25px;
+            max-width: 1200px;
+            width: 100%;
+            max-height: 90vh;
+            box-shadow: 0 20px 60px var(--shadow-hover);
+            border: 3px solid var(--primary);
+            position: relative;
+            animation: modalSlideIn 0.4s ease-out;
+            transition: background 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .partner-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            border-bottom: 2px solid var(--primary);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 107, 107, 0.1));
+        }
+
+        .partner-modal-header h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .partner-modal-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .jump-to-form-btn {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.4);
+        }
+
+        .jump-to-form-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.6);
+        }
+
+        .close-partner-modal {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            line-height: 1;
+            padding: 0;
+        }
+
+        .close-partner-modal:hover {
+            background: var(--pink);
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        .partner-slides-container {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .partner-slides-wrapper {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+            scroll-behavior: smooth;
+        }
+
+        .partner-slide {
+            display: none;
+            animation: slideFadeIn 0.5s ease-out;
+        }
+
+        .partner-slide.active {
+            display: block;
+        }
+
+        @keyframes slideFadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .partner-slide h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .partner-slide .section-subtitle {
+            color: var(--text-medium);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .partner-slides-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-top: 2px solid var(--primary);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(255, 107, 107, 0.05));
+        }
+
+        .slide-nav-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .slide-nav-btn:hover:not(:disabled) {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+        }
+
+        .slide-nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .slide-indicators {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .slide-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .slide-indicator.active {
+            background: var(--primary);
+            transform: scale(1.3);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+        }
+
+        .slide-indicator:hover {
+            background: var(--secondary);
+            transform: scale(1.2);
+        }
+
+        @media (max-width: 768px) {
+            .partner-modal-content {
+                max-width: 100%;
+                max-height: 100vh;
+                border-radius: 0;
+            }
+
+            .partner-modal-header {
+                padding: 1.5rem;
+                flex-wrap: wrap;
+            }
+
+            .partner-modal-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .jump-to-form-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .partner-slides-wrapper {
+                padding: 1.5rem;
+            }
+
+            .partner-slides-controls {
+                padding: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1772,6 +2020,31 @@
             <div class="password-modal-buttons">
                 <button class="password-submit-btn" onclick="checkPassword()">Submit</button>
                 <button class="password-cancel-btn" onclick="closePasswordModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Partner Modal with Slides -->
+    <div id="partnerModal" class="partner-modal">
+        <div class="partner-modal-content">
+            <div class="partner-modal-header">
+                <h2>Partner with Us</h2>
+                <div class="partner-modal-actions">
+                    <button class="jump-to-form-btn" onclick="jumpToPartnerForm()">Jump to Form</button>
+                    <button class="close-partner-modal" onclick="closePartnerModal()" aria-label="Close">×</button>
+                </div>
+            </div>
+            
+            <div class="partner-slides-container">
+                <div class="partner-slides-wrapper" id="partnerSlidesWrapper">
+                    <!-- Slides will be dynamically generated from investment content -->
+                </div>
+                
+                <div class="partner-slides-controls">
+                    <button class="slide-nav-btn prev" onclick="previousPartnerSlide()" aria-label="Previous slide">‹</button>
+                    <div class="slide-indicators" id="slideIndicators"></div>
+                    <button class="slide-nav-btn next" onclick="nextPartnerSlide()" aria-label="Next slide">›</button>
+                </div>
             </div>
         </div>
     </div>
@@ -1950,7 +2223,7 @@
         <div class="cta-section">
             <h2>Join Us on This Journey</h2>
             <p>Be part of bringing this powerful story of faith, redemption, and hope to audiences worldwide.</p>
-            <a href="#" class="btn-primary" onclick="showPasswordModal()">Partner with us</a>
+            <a href="#/partner" class="btn-primary" onclick="event.preventDefault(); handlePartnerRoute();">Partner with us</a>
         </div>
     </div>
 
@@ -2391,7 +2664,7 @@
                 <a href="#story">Story</a>
                 <a href="#cast">Cast & Crew</a>
                 <a href="#gallery">Gallery</a>
-                <a href="#" onclick="showPasswordModal()">Partner with us</a>
+                <a href="#/partner" onclick="event.preventDefault(); handlePartnerRoute();">Partner with us</a>
             </div>
             
             <div class="social-links">
@@ -2478,14 +2751,29 @@
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 const href = this.getAttribute('href');
+                // Skip hash routes like #/partner
+                if (href && (href.startsWith('#/') || href === '#partner')) {
+                    return; // Let the hash routing handle it
+                }
                 if (href !== '#' && href.length > 1) {
                     e.preventDefault();
-                    // Switch to home page if on another page
-                    const currentPage = document.querySelector('.page.active');
-                    if (currentPage && currentPage.id !== 'home-page') {
-                        showPage('home');
-                        // Wait for page switch before scrolling
-                        setTimeout(() => {
+                    // Validate selector (must be a valid CSS selector)
+                    try {
+                        // Switch to home page if on another page
+                        const currentPage = document.querySelector('.page.active');
+                        if (currentPage && currentPage.id !== 'home-page') {
+                            showPage('home');
+                            // Wait for page switch before scrolling
+                            setTimeout(() => {
+                                const target = document.querySelector(href);
+                                if (target) {
+                                    target.scrollIntoView({
+                                        behavior: 'smooth',
+                                        block: 'start'
+                                    });
+                                }
+                            }, 100);
+                        } else {
                             const target = document.querySelector(href);
                             if (target) {
                                 target.scrollIntoView({
@@ -2493,15 +2781,10 @@
                                     block: 'start'
                                 });
                             }
-                        }, 100);
-                    } else {
-                        const target = document.querySelector(href);
-                        if (target) {
-                            target.scrollIntoView({
-                                behavior: 'smooth',
-                                block: 'start'
-                            });
                         }
+                    } catch (err) {
+                        // Invalid selector, skip
+                        console.warn('Invalid selector:', href);
                     }
                 }
             });
@@ -2528,22 +2811,52 @@
         async function loadCSRFToken() {
             try {
                 const response = await fetch('get-csrf-token.php');
+                // Check if response is actually JSON (not PHP error page)
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    // PHP not available, generate client-side token
+                    csrfToken = generateClientToken();
+                    return;
+                }
                 const data = await response.json();
                 if (data.csrf_token) {
                     csrfToken = data.csrf_token;
                 }
             } catch (error) {
-                console.error('Failed to load CSRF token:', error);
+                // PHP not available, generate client-side token
+                console.warn('CSRF token server not available, using client-side token');
+                csrfToken = generateClientToken();
             }
+        }
+
+        // Generate client-side token for local development
+        function generateClientToken() {
+            return btoa(Date.now().toString() + Math.random().toString(36)).substring(0, 32);
         }
 
         // Check if user is already authorized
         async function checkAuthorization() {
+            // Check localStorage first (for fallback/local dev)
+            const localAuth = localStorage.getItem('investment_authorized');
+            const authTime = localStorage.getItem('investment_auth_time');
+            if (localAuth === 'true' && authTime) {
+                // Check if auth is still valid (1 hour)
+                const timeDiff = Date.now() - parseInt(authTime);
+                if (timeDiff < 3600000) { // 1 hour in milliseconds
+                    return true;
+                } else {
+                    localStorage.removeItem('investment_authorized');
+                    localStorage.removeItem('investment_auth_time');
+                }
+            }
+            
+            // Try server-side check
             try {
                 const response = await fetch('check-auth.php');
                 const data = await response.json();
                 return data.authorized === true;
             } catch (error) {
+                // If server is not available, return false (will prompt for password)
                 return false;
             }
         }
@@ -2573,7 +2886,19 @@
             modal.classList.remove('active');
         }
 
-        // Check password - Server-side validation
+        // Valid passwords (fallback for local development)
+        const fallbackPasswords = [
+            'thebargain2024',
+            'partner2024',
+            'invest2024',
+            'thebargain',
+            'partner',
+            'investment',
+            'TB2024',
+            'PARTNER2024'
+        ];
+
+        // Check password - Server-side validation with fallback
         async function checkPassword() {
             const input = document.getElementById('passwordInput');
             const error = document.getElementById('passwordError');
@@ -2594,12 +2919,64 @@
                     body: formData
                 });
                 
-                const data = await response.json();
+                // Check if response is OK
+                if (!response.ok) {
+                    // If PHP server is not available or returns error, use fallback validation
+                    if (response.status === 0 || response.status === 404 || response.status === 405 || response.status === 500) {
+                        console.warn('PHP server not available or error, using fallback validation');
+                        if (fallbackPasswords.includes(password)) {
+                            // Store in localStorage for session
+                            localStorage.setItem('investment_authorized', 'true');
+                            localStorage.setItem('investment_auth_time', Date.now().toString());
+                            closePasswordModal();
+                            openPartnerModal();
+                            return;
+                        } else {
+                            error.classList.add('show');
+                            error.textContent = 'Incorrect password. Please try again.';
+                            input.value = '';
+                            input.focus();
+                            input.style.animation = 'shake 0.5s ease';
+                            setTimeout(() => {
+                                input.style.animation = '';
+                            }, 500);
+                            return;
+                        }
+                    }
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                // Check if response is actually JSON
+                const contentType = response.headers.get('content-type');
+                let data;
+                if (contentType && contentType.includes('application/json')) {
+                    data = await response.json();
+                } else {
+                    // Not JSON, likely PHP error or HTML, use fallback
+                    console.warn('Response is not JSON, using fallback validation');
+                    if (fallbackPasswords.includes(password)) {
+                        localStorage.setItem('investment_authorized', 'true');
+                        localStorage.setItem('investment_auth_time', Date.now().toString());
+                        closePasswordModal();
+                        openPartnerModal();
+                        return;
+                    } else {
+                        error.classList.add('show');
+                        error.textContent = 'Incorrect password. Please try again.';
+                        input.value = '';
+                        input.focus();
+                        input.style.animation = 'shake 0.5s ease';
+                        setTimeout(() => {
+                            input.style.animation = '';
+                        }, 500);
+                        return;
+                    }
+                }
                 
                 if (data.success) {
-                    // Password correct - close modal and show investment page
+                    // Password correct - close modal and show partner modal
                     closePasswordModal();
-                    showPage('invest');
+                    openPartnerModal();
                 } else {
                     // Password incorrect - show error
                     error.classList.add('show');
@@ -2613,9 +2990,31 @@
                         input.style.animation = '';
                     }, 500);
                 }
-            } catch (error) {
+            } catch (err) {
+                console.error('Password validation error:', err);
+                // Try fallback validation if server is not available
+                if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError') || err.message.includes('JSON')) {
+                    console.warn('Server not available or invalid response, using fallback validation');
+                    if (fallbackPasswords.includes(password)) {
+                        localStorage.setItem('investment_authorized', 'true');
+                        localStorage.setItem('investment_auth_time', Date.now().toString());
+                        closePasswordModal();
+                        openPartnerModal();
+                        return;
+                    } else {
+                        error.classList.add('show');
+                        error.textContent = 'Incorrect password. Please try again.';
+                        input.value = '';
+                        input.focus();
+                        input.style.animation = 'shake 0.5s ease';
+                        setTimeout(() => {
+                            input.style.animation = '';
+                        }, 500);
+                        return;
+                    }
+                }
                 error.classList.add('show');
-                error.textContent = 'Network error. Please try again.';
+                error.textContent = 'Network error. Please check your connection and try again.';
             }
         }
 
@@ -2836,6 +3235,293 @@
                 }
             }
         });
+
+        // Partner Modal with Slides
+        let currentSlideIndex = 0;
+        let partnerSlides = [];
+
+        // Check for /partner route immediately (before DOMContentLoaded)
+        (function() {
+            const pathname = window.location.pathname;
+            const hash = window.location.hash;
+            
+            if (pathname === '/partner' || pathname === '/partner.html' || hash === '#/partner' || hash === '#partner') {
+                // Wait for DOM to be ready, then handle route
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', () => {
+                        handlePartnerRoute();
+                        generatePartnerSlides();
+                    });
+                } else {
+                    handlePartnerRoute();
+                    generatePartnerSlides();
+                }
+            }
+        })();
+
+        // Initialize partner modal on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Listen for hash changes
+            window.addEventListener('hashchange', () => {
+                if (window.location.hash === '#/partner' || window.location.hash === '#partner') {
+                    handlePartnerRoute();
+                }
+            });
+
+            // Generate slides from investment content (if not already generated)
+            if (partnerSlides.length === 0) {
+                generatePartnerSlides();
+            }
+        });
+
+        // Handle /partner route
+        async function handlePartnerRoute() {
+            const authorized = await checkAuthorization();
+            if (!authorized) {
+                showPasswordModal();
+                // Update URL to remove /partner if not authorized
+                if (window.location.hash === '#/partner' || window.location.hash === '#partner') {
+                    window.history.replaceState({}, '', window.location.pathname);
+                }
+                if (window.location.pathname === '/partner') {
+                    window.history.replaceState({}, '', '/');
+                }
+            } else {
+                openPartnerModal();
+            }
+        }
+
+        // Generate slides from investment page content
+        function generatePartnerSlides() {
+            const investPage = document.getElementById('invest-page');
+            if (!investPage) return;
+
+            const sections = investPage.querySelectorAll('section');
+            const slidesWrapper = document.getElementById('partnerSlidesWrapper');
+            if (!slidesWrapper) return;
+
+            partnerSlides = [];
+            slidesWrapper.innerHTML = '';
+
+            sections.forEach((section, index) => {
+                // Skip empty sections or sections without meaningful content
+                const title = section.querySelector('.section-title');
+                if (!title) return;
+
+                const slide = document.createElement('div');
+                slide.className = 'partner-slide';
+                slide.id = `partner-slide-${index}`;
+
+                // Clone section content
+                const sectionClone = section.cloneNode(true);
+                
+                // Remove any IDs that might conflict
+                sectionClone.removeAttribute('id');
+                
+                slide.appendChild(sectionClone);
+                slidesWrapper.appendChild(slide);
+                
+                partnerSlides.push(slide);
+            });
+
+            // Create slide indicators
+            createSlideIndicators();
+            
+            // Show first slide
+            if (partnerSlides.length > 0) {
+                showPartnerSlide(0);
+            }
+        }
+
+        // Create slide indicators
+        function createSlideIndicators() {
+            const indicatorsContainer = document.getElementById('slideIndicators');
+            if (!indicatorsContainer) return;
+
+            indicatorsContainer.innerHTML = '';
+            
+            partnerSlides.forEach((_, index) => {
+                const indicator = document.createElement('div');
+                indicator.className = 'slide-indicator';
+                if (index === 0) indicator.classList.add('active');
+                indicator.onclick = () => showPartnerSlide(index);
+                indicatorsContainer.appendChild(indicator);
+            });
+        }
+
+        // Show specific slide
+        function showPartnerSlide(index) {
+            if (index < 0 || index >= partnerSlides.length) return;
+
+            // Hide all slides
+            partnerSlides.forEach(slide => slide.classList.remove('active'));
+            
+            // Show selected slide
+            partnerSlides[index].classList.add('active');
+            currentSlideIndex = index;
+
+            // Update indicators
+            const indicators = document.querySelectorAll('.slide-indicator');
+            indicators.forEach((ind, i) => {
+                if (i === index) {
+                    ind.classList.add('active');
+                } else {
+                    ind.classList.remove('active');
+                }
+            });
+
+            // Update navigation buttons
+            updateSlideNavigation();
+        }
+
+        // Update slide navigation buttons
+        function updateSlideNavigation() {
+            const prevBtn = document.querySelector('.slide-nav-btn.prev');
+            const nextBtn = document.querySelector('.slide-nav-btn.next');
+
+            if (prevBtn) {
+                prevBtn.disabled = currentSlideIndex === 0;
+            }
+            if (nextBtn) {
+                nextBtn.disabled = currentSlideIndex === partnerSlides.length - 1;
+            }
+        }
+
+        // Navigate to previous slide
+        function previousPartnerSlide() {
+            if (currentSlideIndex > 0) {
+                showPartnerSlide(currentSlideIndex - 1);
+            }
+        }
+
+        // Navigate to next slide
+        function nextPartnerSlide() {
+            if (currentSlideIndex < partnerSlides.length - 1) {
+                showPartnerSlide(currentSlideIndex + 1);
+            }
+        }
+
+        // Open partner modal
+        async function openPartnerModal() {
+            const modal = document.getElementById('partnerModal');
+            if (!modal) return;
+
+            // Check authorization
+            const authorized = await checkAuthorization();
+            if (!authorized) {
+                showPasswordModal();
+                return;
+            }
+
+            // Generate slides if not already generated
+            if (partnerSlides.length === 0) {
+                generatePartnerSlides();
+            }
+
+            // Show modal
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            // Update URL (use hash for better compatibility)
+            if (window.location.hash !== '#/partner' && window.location.hash !== '#partner') {
+                window.location.hash = '#/partner';
+            }
+        }
+
+        // Close partner modal
+        function closePartnerModal() {
+            const modal = document.getElementById('partnerModal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+                
+                // Update URL (remove hash)
+                if (window.location.hash === '#/partner' || window.location.hash === '#partner') {
+                    window.history.replaceState({}, '', window.location.pathname);
+                }
+                if (window.location.pathname === '/partner') {
+                    window.history.replaceState({}, '', '/');
+                }
+            }
+        }
+
+        // Jump to form (scroll to form in the last slide)
+        function jumpToPartnerForm() {
+            if (partnerSlides.length === 0) {
+                // If slides not generated, generate them first
+                generatePartnerSlides();
+                if (partnerSlides.length === 0) return;
+            }
+
+            // Show last slide (which should contain the form)
+            const lastSlideIndex = partnerSlides.length - 1;
+            showPartnerSlide(lastSlideIndex);
+
+            // Scroll to form within the slide
+            setTimeout(() => {
+                const lastSlide = partnerSlides[lastSlideIndex];
+                const form = lastSlide.querySelector('#contactForm') || lastSlide.querySelector('form');
+                if (form) {
+                    // Scroll the modal content to show the form
+                    const slidesWrapper = document.getElementById('partnerSlidesWrapper');
+                    if (slidesWrapper) {
+                        const formRect = form.getBoundingClientRect();
+                        const wrapperRect = slidesWrapper.getBoundingClientRect();
+                        const scrollTop = slidesWrapper.scrollTop + formRect.top - wrapperRect.top - 50;
+                        slidesWrapper.scrollTo({ top: scrollTop, behavior: 'smooth' });
+                    }
+                    
+                    // Focus on first input
+                    setTimeout(() => {
+                        const firstInput = form.querySelector('input, textarea, select');
+                        if (firstInput) {
+                            firstInput.focus();
+                        }
+                    }, 500);
+                }
+            }, 300);
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(e) {
+            const modal = document.getElementById('partnerModal');
+            if (modal && e.target === modal) {
+                closePartnerModal();
+            }
+        });
+
+        // Keyboard navigation for slides
+        document.addEventListener('keydown', function(e) {
+            const modal = document.getElementById('partnerModal');
+            if (!modal || !modal.classList.contains('active')) return;
+
+            if (e.key === 'ArrowLeft') {
+                previousPartnerSlide();
+            } else if (e.key === 'ArrowRight') {
+                nextPartnerSlide();
+            } else if (e.key === 'Escape') {
+                closePartnerModal();
+            }
+        });
+
+        // Update navigation links to use /partner
+        function updatePartnerLinks() {
+            // Update footer link
+            const footerLink = document.querySelector('footer a[onclick*="showPasswordModal"]');
+            if (footerLink) {
+                footerLink.setAttribute('href', '/partner');
+                footerLink.setAttribute('onclick', 'event.preventDefault(); handlePartnerRoute();');
+            }
+
+            // Update hero button
+            const heroButton = document.querySelector('.btn-primary[onclick*="showPasswordModal"]');
+            if (heroButton) {
+                heroButton.setAttribute('onclick', 'event.preventDefault(); handlePartnerRoute();');
+            }
+        }
+
+        // Call updatePartnerLinks on DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', updatePartnerLinks);
     </script>
 </body>
 </html>

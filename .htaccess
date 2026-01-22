@@ -38,12 +38,23 @@ Options -Indexes
 ErrorDocument 404 /index.html
 ErrorDocument 403 /index.html
 
-# Force HTTPS (uncomment when SSL is configured)
-# <IfModule mod_rewrite.c>
-#     RewriteEngine On
-#     RewriteCond %{HTTPS} off
-#     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-# </IfModule>
+# SPA Routing - Redirect all non-file requests to index.html
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Force HTTPS (uncomment when SSL is configured)
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    
+    # Don't rewrite if the request is for an actual file
+    RewriteCond %{REQUEST_FILENAME} !-f
+    # Don't rewrite if the request is for an actual directory
+    RewriteCond %{REQUEST_FILENAME} !-d
+    # Don't rewrite PHP files, images, videos, CSS, JS, etc.
+    RewriteCond %{REQUEST_URI} !\.(php|jpg|jpeg|png|gif|svg|ico|mp4|webm|css|js|txt|pdf|zip)$ [NC]
+    # Rewrite everything else to index.html
+    RewriteRule ^(.*)$ /index.html [L]
+</IfModule>
 
 # Security headers
 <IfModule mod_headers.c>

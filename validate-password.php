@@ -60,6 +60,7 @@ file_put_contents($rate_limit_file, json_encode($rate_data));
 
 // Get and sanitize password
 $password = isset($_POST['password']) ? trim($_POST['password']) : '';
+$password = trim($password, "\r\n\t "); // Remove any extra whitespace
 
 if (empty($password)) {
     http_response_code(400);
@@ -76,6 +77,8 @@ if (file_exists($passwords_file)) {
     $lines = explode("\n", $file_content);
     foreach ($lines as $line) {
         $line = trim($line);
+        // Remove any carriage returns and whitespace
+        $line = trim($line, "\r\n\t ");
         if (!empty($line) && substr($line, 0, 1) !== '#') {
             $valid_passwords[] = $line;
         }
