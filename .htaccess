@@ -52,6 +52,10 @@ ErrorDocument 403 /index.html
     RewriteCond %{REQUEST_FILENAME} !-d
     # Don't rewrite PHP files, images, videos, CSS, JS, etc.
     RewriteCond %{REQUEST_URI} !\.(php|jpg|jpeg|png|gif|svg|ico|mp4|webm|css|js|txt|pdf|zip)$ [NC]
+    # Explicitly exclude contact.php and other API endpoints
+    RewriteCond %{REQUEST_URI} !^/contact\.php$ [NC]
+    RewriteCond %{REQUEST_URI} !^/validate-password\.php$ [NC]
+    RewriteCond %{REQUEST_URI} !^/check-auth\.php$ [NC]
     # Rewrite everything else to index.html
     RewriteRule ^(.*)$ /index.html [L]
 </IfModule>

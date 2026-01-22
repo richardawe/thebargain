@@ -4,8 +4,14 @@
 error_reporting(0);
 ini_set('display_errors', 0);
 
+// Ensure no output before headers
+ob_start();
+
 // Set headers first
 header('Content-Type: application/json; charset=utf-8');
+
+// Clear any output buffer
+ob_clean();
 
 // Get form data
 $name = isset($_POST['name']) ? trim($_POST['name']) : '';
