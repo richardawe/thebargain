@@ -1,0 +1,23 @@
+# Files and directories to exclude from FTP deployment
+.git
+.git/**
+.gitignore
+.github
+.github/**
+node_modules
+node_modules/**
+.DS_Store
+.vscode
+.vscode/**
+README*.md
+DEPLOYMENT*.md
+QUICK_START.md
+proposal.md
+setup-git.sh
+submissions.txt
+rate_limit.txt
+password_rate_limit.txt
+passwords.txt
+*.log
+.env
+.env.local

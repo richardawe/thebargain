@@ -28,19 +28,4 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./
         server-dir: ${{ secrets.FTP_DIRECTORY }}/
-        exclude: |
-          **/.git*
-          **/.git*/**
-          **/node_modules/**
-          **/.DS_Store
-          **/.vscode/**
-          **/README*.md
-          **/DEPLOYMENT*.md
-          **/QUICK_START.md
-          **/.github/**
-          **/proposal.md
-          **/setup-git.sh
-          **/submissions.txt
-          **/rate_limit.txt
-          **/passwords.txt
         dangerous-clean-slate: false
