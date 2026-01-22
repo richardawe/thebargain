@@ -18,7 +18,18 @@ header('X-Content-Type-Options: nosniff');
 // Only allow POST requests
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
-    echo json_encode(['success' => false, 'message' => 'Method not allowed']);
+    // If accessed directly via browser, show helpful message
+    if (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'text/html') !== false) {
+        header('Content-Type: text/html');
+        echo '<!DOCTYPE html><html><head><title>Method Not Allowed</title></head><body>';
+        echo '<h1>405 - Method Not Allowed</h1>';
+        echo '<p>This endpoint only accepts POST requests from the contact form.</p>';
+        echo '<p>Please use the contact form on the website to submit your inquiry.</p>';
+        echo '<p><a href="/">Return to Homepage</a></p>';
+        echo '</body></html>';
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Method not allowed. This endpoint only accepts POST requests from the contact form.']);
+    }
     exit;
 }
 
