@@ -4,9 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Bargain | A Faith-Based Thriller</title>
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="The Bargain | A Faith-Based Thriller">
+    <meta name="description" content="When a bitter widower's daughter is kidnapped, his desperate prayer leads him on an impossible rescue mission that will test everything he thought he knew about faith, fate, and the voice of God.">
+    <meta name="keywords" content="The Bargain, faith-based film, Nigerian movie, thriller, faith-based thriller, Imoh Umoren, Richard Awe, investment opportunity, film production">
+    <meta name="author" content="Richard Awe">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://thebargain.com.ng/">
+    <meta property="og:title" content="The Bargain | A Faith-Based Thriller">
+    <meta property="og:description" content="When a bitter widower's daughter is kidnapped, his desperate prayer leads him on an impossible rescue mission that will test everything he thought he knew about faith, fate, and the voice of God.">
+    <meta property="og:image" content="https://thebargain.com.ng/thebargain2.mp4">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="video/mp4">
+    <meta property="og:site_name" content="The Bargain">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://thebargain.com.ng/">
+    <meta name="twitter:title" content="The Bargain | A Faith-Based Thriller">
+    <meta name="twitter:description" content="When a bitter widower's daughter is kidnapped, his desperate prayer leads him on an impossible rescue mission that will test everything he thought he knew about faith, fate, and the voice of God.">
+    <meta name="twitter:image" content="https://thebargain.com.ng/thebargain2.mp4">
+    <meta name="twitter:creator" content="@thebargain">
+    <meta name="twitter:site" content="@thebargain">
+    
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#FFD700">
+    <meta name="msapplication-TileColor" content="#FFD700">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="The Bargain">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://thebargain.com.ng/">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- reCAPTCHA v3 (uncomment and add your site key when ready) -->
+    <!-- <script src="https://www.google.com/recaptcha/api.js?render=YOUR_SITE_KEY"></script> -->
     <style>
         * {
             margin: 0;
@@ -2399,7 +2441,16 @@
         });
 
         // Page Navigation
-        function showPage(pageId) {
+        async function showPage(pageId) {
+            // Check authorization for investment page
+            if (pageId === 'invest') {
+                const authorized = await checkAuthorization();
+                if (!authorized) {
+                    showPasswordModal();
+                    return;
+                }
+            }
+            
             // Hide all pages
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
@@ -2470,37 +2521,30 @@
             });
         }, observerOptions);
 
-        // Password Protection
-        // Default passwords (can be overridden by passwords.txt file)
-        let validPasswords = [
-            'thebargain2024',
-            'partner2024',
-            'invest2024',
-            'thebargain',
-            'partner',
-            'investment',
-            'TB2024',
-            'PARTNER2024'
-        ];
+        // Password Protection - Server-side validation
+        let csrfToken = '';
 
-        // Load passwords from file (if available)
-        async function loadPasswords() {
+        // Load CSRF token
+        async function loadCSRFToken() {
             try {
-                const response = await fetch('passwords.txt');
-                if (response.ok) {
-                    const text = await response.text();
-                    const filePasswords = text.split('\n')
-                        .map(line => line.trim())
-                        .filter(line => line.length > 0 && !line.startsWith('#'));
-                    if (filePasswords.length > 0) {
-                        validPasswords = filePasswords;
-                        console.log('Passwords loaded from file');
-                    }
+                const response = await fetch('get-csrf-token.php');
+                const data = await response.json();
+                if (data.csrf_token) {
+                    csrfToken = data.csrf_token;
                 }
             } catch (error) {
-                // File not accessible (e.g., CORS issue with file:// protocol)
-                // Use default passwords
-                console.log('Using default passwords (file not accessible)');
+                console.error('Failed to load CSRF token:', error);
+            }
+        }
+
+        // Check if user is already authorized
+        async function checkAuthorization() {
+            try {
+                const response = await fetch('check-auth.php');
+                const data = await response.json();
+                return data.authorized === true;
+            } catch (error) {
+                return false;
             }
         }
 
@@ -2529,33 +2573,49 @@
             modal.classList.remove('active');
         }
 
-        // Check password
+        // Check password - Server-side validation
         async function checkPassword() {
             const input = document.getElementById('passwordInput');
             const error = document.getElementById('passwordError');
             const password = input.value.trim();
             
-            // Load passwords if not already loaded
-            if (validPasswords.length === 0) {
-                await loadPasswords();
+            if (!password) {
+                error.classList.add('show');
+                error.textContent = 'Please enter a password';
+                return;
             }
             
-            // Check if password is valid
-            if (validPasswords.includes(password)) {
-                // Password correct - close modal and show investment page
-                closePasswordModal();
-                showPage('invest');
-            } else {
-                // Password incorrect - show error
-                error.classList.add('show');
-                input.value = '';
-                input.focus();
+            try {
+                const formData = new FormData();
+                formData.append('password', password);
                 
-                // Shake animation
-                input.style.animation = 'shake 0.5s ease';
-                setTimeout(() => {
-                    input.style.animation = '';
-                }, 500);
+                const response = await fetch('validate-password.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Password correct - close modal and show investment page
+                    closePasswordModal();
+                    showPage('invest');
+                } else {
+                    // Password incorrect - show error
+                    error.classList.add('show');
+                    error.textContent = data.message || 'Incorrect password. Please try again.';
+                    input.value = '';
+                    input.focus();
+                    
+                    // Shake animation
+                    input.style.animation = 'shake 0.5s ease';
+                    setTimeout(() => {
+                        input.style.animation = '';
+                    }, 500);
+                }
+            } catch (error) {
+                error.classList.add('show');
+                error.textContent = 'Network error. Please try again.';
             }
         }
 
@@ -2567,18 +2627,54 @@
             }
         });
 
-        // Load passwords on page load
-        loadPasswords();
+        // Check authorization when trying to access investment page directly
+        async function verifyInvestmentAccess() {
+            const investPage = document.getElementById('invest-page');
+            if (investPage && investPage.classList.contains('active')) {
+                const authorized = await checkAuthorization();
+                if (!authorized) {
+                    showPage('home');
+                    showPasswordModal();
+                }
+            }
+        }
 
-        // Contact Form Handler
+        // Contact Form Handler with CSRF and reCAPTCHA
         const contactForm = document.getElementById('contactForm');
         if (contactForm) {
+            // Load CSRF token and add to form
+            loadCSRFToken().then(() => {
+                if (csrfToken) {
+                    const csrfInput = document.createElement('input');
+                    csrfInput.type = 'hidden';
+                    csrfInput.name = 'csrf_token';
+                    csrfInput.value = csrfToken;
+                    contactForm.appendChild(csrfInput);
+                }
+            });
+
             contactForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
                 const formMessage = document.getElementById('formMessage');
                 const submitBtn = document.getElementById('submitBtn');
                 const formData = new FormData(this);
+                
+                // Add CSRF token
+                if (csrfToken) {
+                    formData.set('csrf_token', csrfToken);
+                }
+                
+                // reCAPTCHA (if enabled - add your site key in the script tag)
+                const recaptchaSiteKey = ''; // Will be set from script if reCAPTCHA is enabled
+                if (typeof grecaptcha !== 'undefined' && recaptchaSiteKey) {
+                    try {
+                        const recaptchaToken = await grecaptcha.execute(recaptchaSiteKey, {action: 'submit'});
+                        formData.append('recaptcha_token', recaptchaToken);
+                    } catch (error) {
+                        console.log('reCAPTCHA error:', error);
+                    }
+                }
                 
                 // Disable submit button
                 submitBtn.disabled = true;
@@ -2603,6 +2699,21 @@
                         // Reset form
                         contactForm.reset();
                         
+                        // Reload CSRF token for next submission
+                        await loadCSRFToken();
+                        if (csrfToken) {
+                            const csrfInput = contactForm.querySelector('input[name="csrf_token"]');
+                            if (csrfInput) {
+                                csrfInput.value = csrfToken;
+                            } else {
+                                const newCsrfInput = document.createElement('input');
+                                newCsrfInput.type = 'hidden';
+                                newCsrfInput.name = 'csrf_token';
+                                newCsrfInput.value = csrfToken;
+                                contactForm.appendChild(newCsrfInput);
+                            }
+                        }
+                        
                         // Hide message after 5 seconds
                         setTimeout(() => {
                             formMessage.style.display = 'none';
@@ -2613,6 +2724,15 @@
                         formMessage.style.border = '2px solid #F44336';
                         formMessage.style.color = '#C62828';
                         formMessage.textContent = data.message || 'An error occurred. Please try again.';
+                        
+                        // Reload CSRF token on error
+                        await loadCSRFToken();
+                        if (csrfToken) {
+                            const csrfInput = contactForm.querySelector('input[name="csrf_token"]');
+                            if (csrfInput) {
+                                csrfInput.value = csrfToken;
+                            }
+                        }
                     }
                 } catch (error) {
                     formMessage.style.display = 'block';
@@ -2627,8 +2747,15 @@
             });
         }
 
-        // Observe all fade-in elements
+        // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
+            // Load CSRF token
+            loadCSRFToken();
+            
+            // Check if accessing investment page directly
+            verifyInvestmentAccess();
+            
+            // Observe all fade-in elements
             document.querySelectorAll('.fade-in').forEach(el => {
                 observer.observe(el);
             });

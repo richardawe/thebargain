@@ -9,6 +9,23 @@
     Deny from all
 </Files>
 
+<Files "password_rate_limit.txt">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<Files "get-csrf-token.php">
+    # Allow access - this is a public API endpoint
+</Files>
+
+<Files "check-auth.php">
+    # Allow access - this is a public API endpoint
+</Files>
+
+<Files "validate-password.php">
+    # Allow access - this is a public API endpoint
+</Files>
+
 <Files "passwords.txt">
     Order allow,deny
     Deny from all
@@ -17,12 +34,42 @@
 # Prevent directory listing
 Options -Indexes
 
-# Enable error pages (optional)
+# Enable error pages
 ErrorDocument 404 /index.html
+ErrorDocument 403 /index.html
+
+# Force HTTPS (uncomment when SSL is configured)
+# <IfModule mod_rewrite.c>
+#     RewriteEngine On
+#     RewriteCond %{HTTPS} off
+#     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# </IfModule>
 
 # Security headers
 <IfModule mod_headers.c>
+    # Prevent MIME type sniffing
     Header set X-Content-Type-Options "nosniff"
+    
+    # Prevent clickjacking
     Header set X-Frame-Options "SAMEORIGIN"
+    
+    # XSS Protection
     Header set X-XSS-Protection "1; mode=block"
+    
+    # Referrer Policy
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Permissions Policy
+    Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    
+    # Content Security Policy
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.google.com; frame-src https://www.google.com;"
+    
+    # Strict Transport Security (HSTS) - uncomment when HTTPS is enabled
+    # Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 </IfModule>
+
+# Prevent access to PHP files that shouldn't be accessed directly
+<FilesMatch "^(get-csrf-token|check-auth|validate-password)\.php$">
+    # Allow access - these are API endpoints
+</FilesMatch>

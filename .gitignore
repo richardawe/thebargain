@@ -1,6 +1,7 @@
 # Sensitive files - DO NOT COMMIT
 submissions.txt
 rate_limit.txt
+password_rate_limit.txt
 passwords.txt
 
 # System files

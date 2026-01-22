@@ -4,20 +4,63 @@
  * Handles form submissions, sends emails, and stores submissions
  */
 
+// Start session for CSRF protection
+session_start();
+
 // Configuration
 $admin_email = 'richard@thebargain.com.ng';
 $site_name = 'The Bargain';
 $submissions_file = 'submissions.txt';
+$recaptcha_secret = ''; // Add your reCAPTCHA secret key here
 
 // Set headers to prevent caching
 header('Content-Type: application/json');
 header('Cache-Control: no-cache, must-revalidate');
+header('X-Content-Type-Options: nosniff');
 
 // Only allow POST requests
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['success' => false, 'message' => 'Method not allowed']);
     exit;
+}
+
+// CSRF Protection
+if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    http_response_code(403);
+    echo json_encode(['success' => false, 'message' => 'Invalid security token. Please refresh the page and try again.']);
+    exit;
+}
+
+// reCAPTCHA Verification (if enabled)
+if (!empty($recaptcha_secret) && isset($_POST['recaptcha_token'])) {
+    $recaptcha_response = $_POST['recaptcha_token'];
+    $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
+    $recaptcha_data = [
+        'secret' => $recaptcha_secret,
+        'response' => $recaptcha_response,
+        'remoteip' => $_SERVER['REMOTE_ADDR']
+    ];
+    
+    $recaptcha_options = [
+        'http' => [
+            'method' => 'POST',
+            'header' => 'Content-Type: application/x-www-form-urlencoded',
+            'content' => http_build_query($recaptcha_data)
+        ]
+    ];
+    
+    $recaptcha_context = stream_context_create($recaptcha_options);
+    $recaptcha_result = @file_get_contents($recaptcha_url, false, $recaptcha_context);
+    
+    if ($recaptcha_result) {
+        $recaptcha_json = json_decode($recaptcha_result, true);
+        if (!isset($recaptcha_json['success']) || $recaptcha_json['success'] !== true) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'reCAPTCHA verification failed. Please try again.']);
+            exit;
+        }
+    }
 }
 
 // Get and sanitize form data
@@ -134,22 +177,35 @@ $user_body .= "Phone: +447927292051\n\n";
 $user_body .= "Best regards,\n";
 $user_body .= "The {$site_name} Team\n";
 
-// Email headers
+// Sanitize email headers to prevent header injection
+$safe_email = filter_var($email, FILTER_SANITIZE_EMAIL);
+$safe_name = preg_replace('/[\r\n]/', '', $name); // Remove newlines from name
+$safe_subject = preg_replace('/[\r\n]/', '', $admin_subject);
+
+// Email headers with improved security
 $headers = "From: {$site_name} <noreply@thebargain.com.ng>\r\n";
-$headers .= "Reply-To: {$email}\r\n";
+$headers .= "Reply-To: {$safe_email}\r\n";
 $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
 $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+$headers .= "X-Priority: 3\r\n";
+$headers .= "X-MSMail-Priority: Normal\r\n";
 
 $user_headers = "From: {$site_name} <{$admin_email}>\r\n";
 $user_headers .= "Reply-To: {$admin_email}\r\n";
 $user_headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
 $user_headers .= "MIME-Version: 1.0\r\n";
 $user_headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+$user_headers .= "X-Priority: 3\r\n";
+$user_headers .= "X-MSMail-Priority: Normal\r\n";
 
-// Send emails
-$admin_email_sent = @mail($admin_email, $admin_subject, $admin_body, $headers);
-$user_email_sent = @mail($email, $user_subject, $user_body, $user_headers);
+// Send emails with additional security
+$admin_email_sent = @mail($admin_email, $safe_subject, $admin_body, $headers);
+$user_email_sent = @mail($safe_email, $user_subject, $user_body, $user_headers);
+
+// Regenerate CSRF token after successful submission
+session_regenerate_id(true);
+$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 
 // Store submission in file
 $submission_data = [
