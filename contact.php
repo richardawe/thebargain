@@ -4,33 +4,46 @@
  * Handles form submissions, sends emails, and stores submissions
  */
 
+// Enable error reporting for debugging (disable in production if needed)
+error_reporting(E_ALL);
+ini_set('display_errors', 0); // Don't display errors, but log them
+ini_set('log_errors', 1);
+
 // Configuration
 $admin_email = 'richard@thebargain.com.ng';
 $site_name = 'The Bargain';
 $submissions_file = 'submissions.txt';
 $recaptcha_secret = ''; // Add your reCAPTCHA secret key here
 
-// Set headers to prevent caching
-header('Content-Type: application/json');
-header('Cache-Control: no-cache, must-revalidate');
-header('X-Content-Type-Options: nosniff');
+// Function to send JSON response
+function send_json_response($success, $message, $code = 200) {
+    http_response_code($code);
+    header('Content-Type: application/json');
+    header('Cache-Control: no-cache, must-revalidate');
+    echo json_encode(['success' => $success, 'message' => $message]);
+    exit;
+}
+
+// Function to send HTML response
+function send_html_response($title, $message, $code = 200) {
+    http_response_code($code);
+    header('Content-Type: text/html');
+    echo "<!DOCTYPE html><html><head><title>{$title}</title></head><body>";
+    echo "<h1>{$title}</h1>";
+    echo "<p>{$message}</p>";
+    echo '<p><a href="/">Return to Homepage</a></p>';
+    echo '</body></html>';
+    exit;
+}
 
 // Only allow POST requests
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
     // If accessed directly via browser, show helpful message
     if (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'text/html') !== false) {
-        header('Content-Type: text/html');
-        echo '<!DOCTYPE html><html><head><title>Method Not Allowed</title></head><body>';
-        echo '<h1>405 - Method Not Allowed</h1>';
-        echo '<p>This endpoint only accepts POST requests from the contact form.</p>';
-        echo '<p>Please use the contact form on the website to submit your inquiry.</p>';
-        echo '<p><a href="/">Return to Homepage</a></p>';
-        echo '</body></html>';
+        send_html_response('405 - Method Not Allowed', 'This endpoint only accepts POST requests from the contact form. Please use the contact form on the website to submit your inquiry.', 405);
     } else {
-        echo json_encode(['success' => false, 'message' => 'Method not allowed. This endpoint only accepts POST requests from the contact form.']);
+        send_json_response(false, 'Method not allowed. This endpoint only accepts POST requests from the contact form.', 405);
     }
-    exit;
 }
 
 // reCAPTCHA Verification (if enabled)
@@ -57,9 +70,7 @@ if (!empty($recaptcha_secret) && isset($_POST['recaptcha_token'])) {
     if ($recaptcha_result) {
         $recaptcha_json = json_decode($recaptcha_result, true);
         if (!isset($recaptcha_json['success']) || $recaptcha_json['success'] !== true) {
-            http_response_code(400);
-            echo json_encode(['success' => false, 'message' => 'reCAPTCHA verification failed. Please try again.']);
-            exit;
+            send_json_response(false, 'reCAPTCHA verification failed. Please try again.', 400);
         }
     }
 }
@@ -118,9 +129,7 @@ if (file_exists($rate_limit_file)) {
         
         if (time() - $last_submission < $rate_limit_time) {
             if ($submission_count >= $rate_limit_count) {
-                http_response_code(429);
-                echo json_encode(['success' => false, 'message' => 'Too many submissions. Please try again later.']);
-                exit;
+                send_json_response(false, 'Too many submissions. Please try again later.', 429);
             }
             $rate_limit_data[$ip]['count']++;
         } else {
@@ -133,13 +142,11 @@ if (file_exists($rate_limit_file)) {
     $rate_limit_data = [$ip => ['time' => time(), 'count' => 1]];
 }
 
-file_put_contents($rate_limit_file, json_encode($rate_limit_data));
+@file_put_contents($rate_limit_file, json_encode($rate_limit_data));
 
 // If there are errors, return them
 if (!empty($errors)) {
-    http_response_code(400);
-    echo json_encode(['success' => false, 'message' => implode('. ', $errors)]);
-    exit;
+    send_json_response(false, implode('. ', $errors), 400);
 }
 
 // Prepare email content
@@ -225,15 +232,9 @@ $submission_line = json_encode($submission_data) . "\n";
 
 // Return response
 if ($admin_email_sent || $user_email_sent) {
-    echo json_encode([
-        'success' => true,
-        'message' => 'Thank you! Your message has been sent. We will contact you soon.'
-    ]);
+    send_json_response(true, 'Thank you! Your message has been sent. We will contact you soon.');
 } else {
     // Even if email fails, we stored the submission
-    echo json_encode([
-        'success' => true,
-        'message' => 'Thank you! Your message has been received. We will contact you soon.'
-    ]);
+    send_json_response(true, 'Thank you! Your message has been received. We will contact you soon.');
 }
 ?>
